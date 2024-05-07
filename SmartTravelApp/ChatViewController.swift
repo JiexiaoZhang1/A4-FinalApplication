@@ -1,29 +1,54 @@
-//
-//  ChatViewController.swift
-//  SmartTravelApp
-//
-//  Created by student on 8/5/2024.
-//
-
 import UIKit
+import WebKit
 
 class ChatViewController: UIViewController {
+    
+    // Outlet for the WKWebView
+    @IBOutlet weak var myWebView: WKWebView!
+    
+    // Outlet for the UIActivityIndicatorView
+    @IBOutlet weak var loader: UIActivityIndicatorView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Set the navigation delegate of the web view
+        myWebView.navigationDelegate = self
+    
+        // Check if the URL is valid and load it in the web view
+        if let url = URL(string: "https://neostempprojects.com") {
+            let request = URLRequest(url: url)
+            myWebView.load(request)
+        }
+    }
+}
 
-        // Do any additional setup after loading the view.
+// Extension to handle WKNavigationDelegate methods
+extension ChatViewController: WKNavigationDelegate {
+    
+    // Called when the web view starts loading a page
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        // Start animating the activity indicator
+        loader.startAnimating()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    // Called when the web view finishes loading a page
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        // Stop animating the activity indicator
+        loader.stopAnimating()
+        // Hide the activity indicator
+        loader.isHidden = true
+        // Log that the web page has been loaded
+        print("Web Page Loaded")
     }
-    */
-
+    
+    // Called when the web view fails to load a page
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        // Stop animating the activity indicator
+        loader.stopAnimating()
+        // Hide the activity indicator
+        loader.isHidden = true
+        // Log the error message
+        print("Failed to load web page: \(error.localizedDescription)")
+    }
 }

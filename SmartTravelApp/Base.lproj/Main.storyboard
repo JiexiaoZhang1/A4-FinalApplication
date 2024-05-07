@@ -864,6 +864,7 @@
                     <connections>
                         <segue destination="9zW-dA-W4r" kind="relationship" relationship="viewControllers" id="kd5-fk-M1a"/>
                         <segue destination="Vlh-gr-kmV" kind="relationship" relationship="viewControllers" id="G4r-jk-zG5"/>
+                        <segue destination="6JT-5O-gKm" kind="relationship" relationship="viewControllers" id="nHj-Ag-Hvg"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wvf-zO-Of9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1171,9 +1172,66 @@
             </objects>
             <point key="canvasLocation" x="655.72519083969462" y="-254.22535211267606"/>
         </scene>
+        <!--Chat-->
+        <scene sceneID="4Qw-zH-9RX">
+            <objects>
+                <viewController id="6JT-5O-gKm" customClass="ChatViewController" customModule="SmartTravelApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Wfv-R4-WQv">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aYX-3l-5Iv">
+                                <rect key="frame" x="0.0" y="59" width="393" height="710"/>
+                                <subviews>
+                                    <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fx2-w0-ZeL">
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="710"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <wkWebViewConfiguration key="configuration">
+                                            <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                            <wkPreferences key="preferences"/>
+                                        </wkWebViewConfiguration>
+                                    </wkWebView>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="x1h-yp-5j4">
+                                        <rect key="frame" x="186.66666666666666" y="345" width="20" height="20"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="Fx2-w0-ZeL" firstAttribute="leading" secondItem="aYX-3l-5Iv" secondAttribute="leading" id="0Eo-Jz-bER"/>
+                                    <constraint firstItem="x1h-yp-5j4" firstAttribute="centerY" secondItem="aYX-3l-5Iv" secondAttribute="centerY" id="a8K-x9-7qA"/>
+                                    <constraint firstAttribute="trailing" secondItem="Fx2-w0-ZeL" secondAttribute="trailing" id="jDG-la-83T"/>
+                                    <constraint firstItem="Fx2-w0-ZeL" firstAttribute="top" secondItem="aYX-3l-5Iv" secondAttribute="top" id="mKB-nd-vfb"/>
+                                    <constraint firstItem="x1h-yp-5j4" firstAttribute="centerX" secondItem="aYX-3l-5Iv" secondAttribute="centerX" id="orI-tl-WPD"/>
+                                    <constraint firstAttribute="bottom" secondItem="Fx2-w0-ZeL" secondAttribute="bottom" id="rFD-oh-qxr"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="zfu-iJ-2Yw"/>
+                        <color key="backgroundColor" red="0.94509803920000002" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="aYX-3l-5Iv" firstAttribute="leading" secondItem="zfu-iJ-2Yw" secondAttribute="leading" id="5ZN-Kl-mwj"/>
+                            <constraint firstItem="zfu-iJ-2Yw" firstAttribute="bottom" secondItem="aYX-3l-5Iv" secondAttribute="bottom" id="5sB-29-tWM"/>
+                            <constraint firstItem="aYX-3l-5Iv" firstAttribute="top" secondItem="zfu-iJ-2Yw" secondAttribute="top" id="Uag-O1-Isi"/>
+                            <constraint firstItem="zfu-iJ-2Yw" firstAttribute="trailing" secondItem="aYX-3l-5Iv" secondAttribute="trailing" id="whu-RL-Ioe"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Chat" image="bubble.fill" catalog="system" id="d6Q-md-Zro">
+                        <color key="badgeColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBarItem>
+                    <navigationItem key="navigationItem" id="5ZX-UJ-Ul8"/>
+                    <connections>
+                        <outlet property="loader" destination="x1h-yp-5j4" id="IiR-Cn-8DZ"/>
+                        <outlet property="myWebView" destination="Fx2-w0-ZeL" id="c97-4m-4Df"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xmo-JD-qxJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="656" y="1436"/>
+        </scene>
     </scenes>
     <resources>
         <image name="alarm" catalog="system" width="123" height="128"/>
+        <image name="bubble.fill" catalog="system" width="128" height="110"/>
         <image name="calendar" catalog="system" width="128" height="107"/>
         <image name="calendar.badge.clock" catalog="system" width="128" height="109"/>
         <image name="diet" width="512" height="512"/>

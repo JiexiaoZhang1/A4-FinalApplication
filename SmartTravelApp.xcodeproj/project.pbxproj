@@ -17,6 +17,7 @@
 		9D2CD1BE2BEA7E1B00FB2B53 /* TodoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2CD1BD2BEA7E1B00FB2B53 /* TodoViewModel.swift */; };
 		9D2CD1C02BEA7E2A00FB2B53 /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2CD1BF2BEA7E2A00FB2B53 /* DateFormatter+Extensions.swift */; };
 		9D2CD1C22BEA838200FB2B53 /* FunctionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2CD1C12BEA838200FB2B53 /* FunctionViewController.swift */; };
+		9D2CD1C62BEA927500FB2B53 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2CD1C52BEA927500FB2B53 /* ChatViewController.swift */; };
 		9D3C93EA2BE2AC3C00649B37 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3C93E92BE2AC3C00649B37 /* AppDelegate.swift */; };
 		9D3C93EC2BE2AC3C00649B37 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3C93EB2BE2AC3C00649B37 /* SceneDelegate.swift */; };
 		9D3C93EE2BE2AC3C00649B37 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3C93ED2BE2AC3C00649B37 /* ViewController.swift */; };
@@ -40,6 +41,7 @@
 		9D2CD1BD2BEA7E1B00FB2B53 /* TodoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoViewModel.swift; sourceTree = "<group>"; };
 		9D2CD1BF2BEA7E2A00FB2B53 /* DateFormatter+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extensions.swift"; sourceTree = "<group>"; };
 		9D2CD1C12BEA838200FB2B53 /* FunctionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionViewController.swift; sourceTree = "<group>"; };
+		9D2CD1C52BEA927500FB2B53 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		9D3C93E62BE2AC3C00649B37 /* SmartTravelApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartTravelApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D3C93E92BE2AC3C00649B37 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9D3C93EB2BE2AC3C00649B37 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 				9D3C93F72BE2AC4000649B37 /* LaunchScreen.storyboard */,
 				9D3C93FA2BE2AC4000649B37 /* Info.plist */,
 				9D3C93F22BE2AC3C00649B37 /* SmartTravelApp.xcdatamodeld */,
+				9D2CD1C52BEA927500FB2B53 /* ChatViewController.swift */,
 			);
 			path = SmartTravelApp;
 			sourceTree = "<group>";
@@ -276,6 +279,7 @@
 				9D3C93EA2BE2AC3C00649B37 /* AppDelegate.swift in Sources */,
 				9D2CD14F2BEA7C5900FB2B53 /* AddTaskViewController.swift in Sources */,
 				9D2CD1C02BEA7E2A00FB2B53 /* DateFormatter+Extensions.swift in Sources */,
+				9D2CD1C62BEA927500FB2B53 /* ChatViewController.swift in Sources */,
 				9D3C93EC2BE2AC3C00649B37 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
