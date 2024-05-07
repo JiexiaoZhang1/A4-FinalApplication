@@ -4,6 +4,7 @@ import CoreData
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    var test = ""
     /// Invoked when the application is about to start. This is the entry point for the application's initialization.
     /// - Parameters:
     ///   - application: The singleton application instance.
