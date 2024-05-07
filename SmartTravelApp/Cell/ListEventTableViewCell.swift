@@ -9,6 +9,9 @@ import UIKit
 
 class ListEventTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var title: UILabel!
+    @IBOutlet weak var descriptions: UITextView!
+    @IBOutlet weak var myimage: UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

@@ -3,8 +3,13 @@ import AVFoundation
 import Foundation
 
 /// A `UIViewController` that manages a collection view displaying a slider of images.
-class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
-
+class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource,UITableViewDelegate,UITableViewDataSource {
+    
+    @IBOutlet weak var theTable: UITableView!
+    var mytitle:[String] = ["VIVID SYDNEY 2024","1770 FESTIVAL","GUTSY KANGAROO ISLAND"]
+    var mydescriptions:[String] = ["Vivid Sydney is an annual creative festival that showcases the soul of our city, in collaboration with the most brilliant and boundary-pushing artists, thinkers and musicians of our time. ","The 1770 Festival is an annual commemorative event held in the Town of 1770, Queensland - the “only number on the map in Australia”! 1770 Festival is held around the historic date of 24 May 1770.","Come celebrate the determination and brilliance of the Island’s producers at Gutsy Kangaroo Island. An unforgettable experience with Kangaroo Island's beverages. "]
+    var myimage:[String] = ["t1","t2","t3"]
+    
     var timer = Timer()  // Timer used to change images automatically at regular intervals.
     var counter = 0  // Counter to track the current index of displayed image in the slider.
     
@@ -111,5 +116,19 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return myimage.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ListEventTableViewCell", for: indexPath) as! ListEventTableViewCell
+        cell.descriptions.text = mydescriptions[indexPath.row]
+        cell.title.text = mytitle[indexPath.row]
+        cell.myimage.image = UIImage(named: myimage[indexPath.row])
+        
+        return cell
+    }
+    
 }
 
