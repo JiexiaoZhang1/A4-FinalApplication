@@ -1,8 +1,9 @@
 import UIKit
 import CoreData
+import UserNotifications
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDelegate {
 
     var test = ""
     /// Invoked when the application is about to start. This is the entry point for the application's initialization.
@@ -10,10 +11,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     ///   - application: The singleton application instance.
     ///   - launchOptions: A dictionary containing the reasons the application was launched (if any).
     /// - Returns: A Boolean value indicating if the application should continue with the usual launch process.
+    let notificationCenter = UNUserNotificationCenter.current()
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Use this method to perform any final initialization after the application has launched.
+        // Set the delegate for handling notifications
+        notificationCenter.delegate = self
+        
+        // Define notification authorization options
+        let options: UNAuthorizationOptions = [.alert, .sound, .badge]
+        
+        // Request permission from the user to display notifications
+        notificationCenter.requestAuthorization(options: options) { (didAllow, error) in
+            if !didAllow {
+                print("User has declined notifications")
+            }
+        }
+        
         return true
     }
+
 
     // MARK: UISceneSession Lifecycle
 
@@ -69,6 +85,66 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+        // Indicate how to present the notification when the app is in the foreground
+        completionHandler([.alert, .sound])
+    }
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        // Handle actions when a notification is received while the app is in the foreground
+        if response.notification.request.identifier == "Local Notification" {
+            print("Handling notifications with the Local Notification Identifier")
+        }
+        
+        // Call the completion handler to signal that the task is complete
+        completionHandler()
+    }
+
+    func scheduleNotification(notificationType: String) {
+        
+        // Create notification content
+        let content = UNMutableNotificationContent()
+        let categoryIdentifier = "Delete Notification Type"
+        
+        content.title = notificationType
+        content.body =  notificationType
+        content.sound = UNNotificationSound.default
+        content.badge = 1
+        content.categoryIdentifier = categoryIdentifier
+        
+        // Create notification trigger
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        let identifier = "Local Notification"
+        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+        
+        // Add the notification request to the notification center
+        notificationCenter.add(request) { (error) in
+            if let error = error {
+                print("Error \(error.localizedDescription)")
+            }
+        }
+        
+        // Define notification actions
+        let snoozeAction = UNNotificationAction(identifier: "Snooze", title: "Snooze", options: [])
+        let deleteAction = UNNotificationAction(identifier: "DeleteAction", title: "Delete", options: [.destructive])
+        let category = UNNotificationCategory(identifier: categoryIdentifier,
+                                              actions: [snoozeAction, deleteAction],
+                                              intentIdentifiers: [],
+                                              options: [])
+        
+        // Set notification categories
+        notificationCenter.setNotificationCategories([category])
+    }
+
+
 
 }
+
 

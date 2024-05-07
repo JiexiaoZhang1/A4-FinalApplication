@@ -1,17 +1,12 @@
-//
-//  ListEventTableViewCell.swift
-//  SmartTravelApp
-//
-//  Created by student on 7/5/2024.
-//
-
 import UIKit
 
 class ListEventTableViewCell: UITableViewCell {
 
+    // Outlets for UI elements
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var descriptions: UITextView!
     @IBOutlet weak var myimage: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

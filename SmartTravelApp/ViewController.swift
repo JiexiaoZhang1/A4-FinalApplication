@@ -6,9 +6,14 @@ import Foundation
 class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource,UITableViewDelegate,UITableViewDataSource {
     
     @IBOutlet weak var theTable: UITableView!
-    var mytitle:[String] = ["VIVID SYDNEY 2024","1770 FESTIVAL","GUTSY KANGAROO ISLAND"]
-    var mydescriptions:[String] = ["Vivid Sydney is an annual creative festival that showcases the soul of our city, in collaboration with the most brilliant and boundary-pushing artists, thinkers and musicians of our time. ","The 1770 Festival is an annual commemorative event held in the Town of 1770, Queensland - the “only number on the map in Australia”! 1770 Festival is held around the historic date of 24 May 1770.","Come celebrate the determination and brilliance of the Island’s producers at Gutsy Kangaroo Island. An unforgettable experience with Kangaroo Island's beverages. "]
-    var myimage:[String] = ["t1","t2","t3"]
+    // Arrays for title, descriptions, and image names
+       var mytitle:[String] = ["VIVID SYDNEY 2024","1770 FESTIVAL","GUTSY KANGAROO ISLAND"]
+       var mydescriptions:[String] = [
+           "Vivid Sydney is an annual creative festival that showcases the soul of our city, in collaboration with the most brilliant and boundary-pushing artists, thinkers and musicians of our time. ",
+           "The 1770 Festival is an annual commemorative event held in the Town of 1770, Queensland - the “only number on the map in Australia”! 1770 Festival is held around the historic date of 24 May 1770.",
+           "Come celebrate the determination and brilliance of the Island’s producers at Gutsy Kangaroo Island. An unforgettable experience with Kangaroo Island's beverages. "
+       ]
+       var myimage:[String] = ["t1","t2","t3"]
     
     var timer = Timer()  // Timer used to change images automatically at regular intervals.
     var counter = 0  // Counter to track the current index of displayed image in the slider.
@@ -87,6 +92,34 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         }
         return cell!
     }
+    @IBAction func attractionsTapped(_ sender: Any) {
+        // Set the web URL for attractions
+        FunctionViewController.weburl = "https://www.australia.com/en-sg/places.html"
+        // Perform segue to show the function view controller
+        self.performSegue(withIdentifier: "showFunction", sender: true)
+    }
+
+    @IBAction func transportationTapped(_ sender: Any) {
+        // Set the web URL for transportation
+        FunctionViewController.weburl = "https://www.australia.com/en-sg/facts-and-planning/getting-around.html"
+        // Perform segue to show the function view controller
+        self.performSegue(withIdentifier: "showFunction", sender: true)
+    }
+
+    @IBAction func dietsTapped(_ sender: Any) {
+        // Set the web URL for diets
+        FunctionViewController.weburl = "https://www.thespruceeats.com/australian-food-4162464"
+        // Perform segue to show the function view controller
+        self.performSegue(withIdentifier: "showFunction", sender: true)
+    }
+
+    @IBAction func hotelTapped(_ sender: Any) {
+        // Set the web URL for hotels
+        FunctionViewController.weburl = "https://www.booking.com/country/au.en-gb.html"
+        // Perform segue to show the function view controller
+        self.performSegue(withIdentifier: "showFunction", sender: true)
+    }
+
 }
 
 extension ViewController: UICollectionViewDelegateFlowLayout {
@@ -118,17 +151,24 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // Return the number of items in the data source array
         return myimage.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // Dequeue a reusable cell and cast it to your custom cell class
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListEventTableViewCell", for: indexPath) as! ListEventTableViewCell
+        
+        // Set the description, title, and image of the cell based on the current row
         cell.descriptions.text = mydescriptions[indexPath.row]
         cell.title.text = mytitle[indexPath.row]
         cell.myimage.image = UIImage(named: myimage[indexPath.row])
         
         return cell
     }
+
+    
+    
     
 }
 

@@ -1,12 +1,6 @@
-//
-//  Todo.swift
-//  TaskApp
-//
-//  Created by student on 1/5/2024.
-//
-
 import Foundation
 
+// A struct representing a Todo item
 struct Todo: Codable {
     var title: String
     var date: String?
@@ -14,21 +8,22 @@ struct Todo: Codable {
     var description: String?
     var isCompleted: Bool = false
     
+    // Update the Todo item in UserDefaults
     mutating func updateToUserDefaults(title: String, time: String, description: String, isCompleted: Bool) {
         var allTodos = Todo.loadAllFromUserDefaults() ?? []
         
-        // 查找要更新的 Todo 对象
+        // Find the Todo object to update
         if let index = allTodos.firstIndex(where: { $0.title == (title ?? "") && $0.time == (time ?? "") && $0.description == (description ?? "") }) {
-            // 更新 isCompleted 属性
+            // Update the isCompleted property
             allTodos[index].isCompleted = isCompleted
             
-            // 对数组进行排序
+            // Sort the array
             allTodos.sort { (todo1, todo2) -> Bool in
-                // 根据需要的排序逻辑进行比较，例如按照时间排序
+                // Compare based on sorting logic, such as sorting by time
                 return (todo1.time ?? "") < (todo2.time ?? "")
             }
             
-            // 将更新后的数组保存到 UserDefaults 中
+            // Save the updated array to UserDefaults
             let encoder = JSONEncoder()
             if let encodedData = try? encoder.encode(allTodos) {
                 UserDefaults.standard.set(encodedData, forKey: "todoObject")
@@ -37,15 +32,15 @@ struct Todo: Codable {
         }
     }
     
-    
+    // Delete a Todo item from UserDefaults
     static func deleteTaskFromUserDefaults(title: String, time: String, description: String, date: String) {
         var allTodos = Todo.loadAllFromUserDefaults() ?? []
         
-        // 查找要删除的Todo对象
+        // Find the Todo object to delete
         if let index = allTodos.firstIndex(where: { $0.title == title && $0.time == time && $0.description == description && $0.date == date }) {
             allTodos.remove(at: index)
             
-            // 将更新后的数组保存到UserDefaults中
+            // Save the updated array to UserDefaults
             let encoder = JSONEncoder()
             if let encodedData = try? encoder.encode(allTodos) {
                 UserDefaults.standard.set(encodedData, forKey: "todoObject")
@@ -53,11 +48,9 @@ struct Todo: Codable {
             }
         }
     }
-
-    
-
 }
 
+// Equatable extension for Todo struct
 extension Todo: Equatable {
     static let empty = Todo(title: "", date: "", time: "", description: "")
     
@@ -71,20 +64,22 @@ extension Todo: Equatable {
     }
 }
 
+// Extensions for Todo struct
 extension Todo {
+    // Save a single Todo item to UserDefaults
     func saveToUserDefaults() {
         var allTodos = Todo.loadAllFromUserDefaults() ?? []
         
-        // 查找当前任务是否已存在于列表中
+        // Check if the current task already exists in the list
         if let index = allTodos.firstIndex(where: { $0.title == self.title }) {
-            // 如果找到了与当前任务标题相同的任务，则替换它
+            // If a task with the same title as the current task is found, replace it
             allTodos[index] = self
         } else {
-            // 否则，将当前任务添加到列表末尾
+            // Otherwise, add the current task to the end of the list
             allTodos.append(self)
         }
         
-        // 将整个任务列表保存到 UserDefaults 中
+        // Save the entire task list to UserDefaults
         let encoder = JSONEncoder()
         if let encodedData = try? encoder.encode(allTodos) {
             UserDefaults.standard.set(encodedData, forKey: "todoObject")
@@ -92,6 +87,7 @@ extension Todo {
         }
     }
     
+    // Load a single Todo item from UserDefaults
     static func loadFromUserDefaults() -> Todo? {
         if let savedData = UserDefaults.standard.data(forKey: "todoObject") {
             let decoder = JSONDecoder()
@@ -102,6 +98,7 @@ extension Todo {
         return nil
     }
     
+    // Load all Todo items from UserDefaults
     static func loadAllFromUserDefaults() -> [Todo]? {
         if let savedData = UserDefaults.standard.data(forKey: "todoObject") {
             let decoder = JSONDecoder()
@@ -111,8 +108,5 @@ extension Todo {
         }
         return nil
     }
-    
-  
-    
-    
 }
+

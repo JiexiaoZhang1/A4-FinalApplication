@@ -5,6 +5,8 @@ import RxCocoa
 
 class CalendarViewController: UIViewController, UITableViewDataSource {
     
+    // MARK: - IBOutlets
+    
     @IBOutlet weak var calendar: FSCalendar!
     @IBOutlet weak var tblTasks: UITableView!
     @IBOutlet weak var btnEditTable: UIBarButtonItem!
@@ -14,55 +16,58 @@ class CalendarViewController: UIViewController, UITableViewDataSource {
     
     static let storyboardID = "calendarTask"
 
-    var todoScheduled: [String : [Todo]] = [:]
-    var selectedDate = Date()
-    var timer: Timer?
+    var todoScheduled: [String : [Todo]] = [:] // Dictionary to store todos scheduled by date
+    var selectedDate = Date() // Currently selected date in the calendar
+    var timer: Timer? // Timer for periodically checking for todos
+    
     // MARK: - View Lifecycle
     
     var appDelegate = UIApplication.shared.delegate as? AppDelegate
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // 注册观察者监听数据变化通知
+        // Register observer to listen for data change notifications
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshHome(notification:)), name: NSNotification.Name(rawValue: "refreshHome"), object: nil)
 
-        
+        // Load data and reload table view
         loadData()
         tblTasks.reloadData()
-        
 
+        // Register custom table view cell
         let nibName = UINib(nibName: TodoTableViewCell.nibName, bundle: nil)
         tblTasks.register(nibName, forCellReuseIdentifier: TodoTableViewCell.identifier)
         tblTasks.rowHeight = UITableView.automaticDimension
         
-
+        // Select the currently selected date in the calendar
         calendar.select(selectedDate)
         
-
+        // Set calendar height constraint to half of the view height
         calendarHeightConstraint.constant = self.view.bounds.height / 2
-
+        
+        // Customize weekday labels' text color
         calendar.calendarWeekdayView.weekdayLabels[0].textColor = UIColor(red: 255/255, green: 126/255, blue: 121/255, alpha: 1.0)
         calendar.calendarWeekdayView.weekdayLabels[6].textColor = calendar.calendarWeekdayView.weekdayLabels[0].textColor
-   
+        
+        // Set calendar scope to week view
         calendar.scope = .week
         
+        // Start the timer for periodic checking of todos
         startTimer()
         
-        //show notification
-       /* DispatchQueue.main.asyncAfter(deadline: .now()) {
+        // Show notification (commented out)
+        /*
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
             print("nana")
             self.appDelegate?.scheduleNotification(notificationType: "hello word")
         }
         */
-        
-     
-     }
+    }
    
+    // MARK: - Timer
+    
     @objc func checkTime() {
-      
-       
+        // Perform time-based checks here
     }
 
     func startTimer() {
@@ -70,16 +75,18 @@ class CalendarViewController: UIViewController, UITableViewDataSource {
     }
 
     @objc func checkForTodos() {
-        // 在这里执行你的检测逻辑
-        // 检查是否有待办事项...
-        // 如果有，打印数据和执行其他操作
-      //  print("Checking for todos...")
-        loadData() // 调用你的 loadData() 方法
+        // Perform your checks for todos here
+        // Check if there are any todos...
+        // If there are, print the data and perform other actions
+        // print("Checking for todos...")
+        loadData() // Call your loadData() method
     }
 
     func stopTimer() {
         timer?.invalidate()
     }
+    
+    // MARK: - Data Loading and Notifications
     
     @objc func refreshHome(notification: NSNotification){
         self.todoScheduled.removeAll()
@@ -87,17 +94,17 @@ class CalendarViewController: UIViewController, UITableViewDataSource {
         self.tblTasks.reloadData()
     }
     
-    var notificationSent = false // 用于跟踪通知是否已发送
+    var notificationSent = false // Used to track if notification has been sent
     var trackTime:String = ""
 
     func loadData() {
         self.todoScheduled.removeAll()
         
-        // 从 UserDefaults 中加载数据
+        // Load data from UserDefaults
         if let savedData = UserDefaults.standard.data(forKey: "todoObject") {
             let decoder = JSONDecoder()
             if let loadedTodos = try? decoder.decode([Todo].self, from: savedData) {
-                // 将加载的数据存储到 todoScheduled 字典中，以日期为键，待办事项数组为值
+                // Store the loaded data in the todoScheduled dictionary, with date as the key and an array of todos as the value
                 for todo in loadedTodos {
                     if let date = todo.date {
                         if todoScheduled[date] == nil {
@@ -108,85 +115,70 @@ class CalendarViewController: UIViewController, UITableViewDataSource {
                     }
                 }
                 
-                // 重新加载表格视图
+                // Reload the table view
                 tblTasks.reloadData()
-               
-                // 检查通知是否已发送
-                    if notificationSent {
-                        return // 如果通知已发送，则退出函数
-                    }
-
-                    // 获取当前时间
-                    let currentTime = Date()
-                    
-                    // 创建日期格式化器
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "HH:mm:ss" // 24小时制时间格式
-                    
-                    // 获取当前时间的字符串表示
-               
-                    let currentTimeString = dateFormatter.string(from: currentTime)
-              
-                    
-
-                    // 获取今天的日期字符串
-                    let today = Date()
-                    dateFormatter.dateFormat = "yyyy-MM-dd"
-                    let todayDateString = dateFormatter.string(from: today)
-                print("Current time",currentTimeString)
-               
-                    // 检查是否有今天的待办事项
-                    if let todosForToday = todoScheduled[todayDateString] {
-                        // 遍历今天的待办事项
-                        for todo in todosForToday {
-                            // 检查待办事项的日期和时间是否与当前时间匹配
-                            if todayDateString == todo.date && currentTimeString == todo.time
-                               
-                            {
-
-                                // 发送通知
-                                sendNotification(content: todo.title)
-                                // 标记通知已发送
-                              //  notificationSent = true
-                                return // 退出函数，以确保只发送一次通知
-                            }
+                
+                // Check if the notification has already been sent
+                if notificationSent {
+                    return // Exit the function if the notification has already been sent
+                }
+                
+                // Get the current time
+                let currentTime = Date()
+                
+                // Create a date formatter
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "HH:mm:ss" // 24-hour time format
+                
+                // Get the string representation of the current time
+                let currentTimeString = dateFormatter.string(from: currentTime)
+                
+                // Get today's date as a string
+                let today = Date()
+                dateFormatter.dateFormat = "yyyy-MM-dd"
+                let todayDateString = dateFormatter.string(from: today)
+                
+                // Check if there are todos for today
+                if let todosForToday = todoScheduled[todayDateString] {
+                    // Iterate over the todos for today
+                    for todo in todosForToday {
+                        // Check if the date and time of the todo match the current time
+                        if todayDateString == todo.date && currentTimeString == todo.time {
+                            // Send a notification
+                            sendNotification(content: todo.title)
+                            // Mark the notification as sent
+                            // notificationSent = true
+                            return // Exit the function to ensure only one notification is sent
                         }
                     }
-                
-                
-              
+                }
             }
         }
     }
     
-    func sendNotification(content:String) {
-        // 在这里实现发送通知的逻辑
+    func sendNotification(content: String) {
+        // Implement notification sending logic here
         print("Show Notification Now!!!!!")
-      self.appDelegate?.scheduleNotification(notificationType: "Show Notification: \(content)")
-       // notificationSent = false
+        self.appDelegate?.scheduleNotification(notificationType: "Show Notification: \(content)")
+        // notificationSent = false
     }
-    
+
     // MARK: - Tableview DataSource
-    
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return todoScheduled[selectedDate.toString()]?.count ?? 0
     }
-    
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return selectedDate.toString()
     }
-    
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TodoTableViewCell.identifier, for: indexPath) as! TodoTableViewCell
         guard let task = todoScheduled[selectedDate.toString()]?[indexPath.row] else { return cell }
         
-
         cell.bind(task: task)
         
- 
         cell.btnCheckbox.indexPath = indexPath
         cell.btnCheckbox.addTarget(self, action: #selector(checkboxSelection(_:)), for: .touchUpInside)
         
@@ -194,43 +186,54 @@ class CalendarViewController: UIViewController, UITableViewDataSource {
     }
     
     // MARK: - Actions
-    
 
+    /**
+     Handles the selection of a checkbox button in the table view cell.
+     - Parameter sender: The checkbox button that was selected.
+     */
     @objc func checkboxSelection(_ sender: CheckUIButton) {
-
         guard let indexPath = sender.indexPath else { return }
         
         if var todo = todoScheduled[selectedDate.toString()]?[indexPath.row] {
-            // 更改 isCompleted 值
+            // Change the value of isCompleted
             todo.isCompleted = !todo.isCompleted
             todoScheduled[selectedDate.toString()]?[indexPath.row] = todo
             
-            // 保存更改
+            // Save the changes
             todo.updateToUserDefaults(title: todo.title, time: todo.time!, description: todo.description!, isCompleted: todo.isCompleted)
             
-            // 更新 count
+            // Update count
             if let count = UserDefaults.standard.value(forKey: "count") as? Int {
                 UserDefaults.standard.setValue(count + 10, forKey: "count")
             } else {
                 UserDefaults.standard.setValue(1, forKey: "count")
             }
+            
+            // Post a notification to refresh the shop
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshShop"), object: nil, userInfo: nil)
+            
+            // Reload the data
             loadData()
         }
     }
 
-
-
+    /**
+     Handles the press of the done button.
+     - Parameter sender: The bar button item that was pressed.
+     */
     @IBAction func doneButtonPressed(_ sender: UIBarButtonItem) {
-     //   delegate?.sendData(scheduledTasks: todoScheduled, newDate: selectedDate)
-       // dismiss(animated: true, completion: nil)
+        // delegate?.sendData(scheduledTasks: todoScheduled, newDate: selectedDate)
+        // dismiss(animated: true, completion: nil)
         
+        // Navigate to the AddTaskViewController
         guard let addTaskVC = self.storyboard?.instantiateViewController(identifier: AddTaskViewController.storyboardID) as? AddTaskViewController else { return }
-        
         self.navigationController?.pushViewController(addTaskVC, animated: true)
     }
-    
 
+    /**
+     Handles the press of the change scope button.
+     - Parameter sender: The bar button item that was pressed.
+     */
     @IBAction func changeScopeButtonPressed(_ sender: UIBarButtonItem) {
         if tblTasks.isEditing {
             btnEditTable.title = "Edit"
@@ -240,35 +243,42 @@ class CalendarViewController: UIViewController, UITableViewDataSource {
             tblTasks.setEditing(true, animated: true)
         }
     }
-    
+
+    /**
+     Handles the press of the show calendar button.
+     - Parameter sender: The button that was pressed.
+     */
     @IBAction func showCalendar(_ sender: Any) {
         if calendar.scope == .month {
             calendar.scope = .week
-      
         } else {
             calendar.scope = .month
-      
         }
     }
-    
   
     
+    /**
+     Deletes a task at the specified index path.
+     - Parameter indexPath: The index path of the task to delete.
+     */
     func deleteTask(at indexPath: IndexPath) {
         guard let todoList = todoScheduled[selectedDate.toString()] else { return }
         
         let selectedTodo = todoList[indexPath.row]
         
         var todo = Todo(title: selectedTodo.title, date: selectedTodo.date, time: selectedTodo.time, description: selectedTodo.description, isCompleted: selectedTodo.isCompleted)
+        
+        // Delete the task from user defaults
         Todo.deleteTaskFromUserDefaults(title: todo.title, time: todo.time!, description: todo.description!, date: todo.date!)
         
-
+        // Remove the task from the scheduled todo list
         todoScheduled[selectedDate.toString()]?.remove(at: indexPath.row)
         
+        // Update the table view to reflect the deletion
         tblTasks.beginUpdates()
         tblTasks.deleteRows(at: [indexPath], with: .fade)
         tblTasks.endUpdates()
     }
-
 
 
     
@@ -276,49 +286,71 @@ class CalendarViewController: UIViewController, UITableViewDataSource {
 
 // MARK: - Calendar Delegate
 
+/**
+ Provides the data source, delegate, and appearance customization for the calendar.
+ */
 extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalendarDelegateAppearance {
     
-
+    /**
+     Called when a date is selected on the calendar.
+     - Parameter calendar: The calendar view object.
+     - Parameter date: The selected date.
+     - Parameter monthPosition: The position of the month containing the selected date.
+     */
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         selectedDate = date
         tblTasks.reloadData()
     }
     
-
+    /**
+     Called when the bounding rectangle of the calendar changes.
+     - Parameter calendar: The calendar view object.
+     - Parameter bounds: The new bounding rectangle of the calendar.
+     - Parameter animated: A Boolean value indicating whether the change is animated or not.
+     */
     func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
         calendarHeightConstraint.constant = bounds.height
         self.view.layoutIfNeeded()
     }
     
-
+    /**
+     Retrieves the number of events for a specific date on the calendar.
+     - Parameter calendar: The calendar view object.
+     -Parameter date: The date for which the number of events is requested.
+     - Returns: The number of events for the specified date.
+     */
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
         if let tasks = todoScheduled[date.toString()], tasks.count > 0 { return 1 }
         return 0
     }
     
-
+    /**
+     Retrieves the default event colors for a specific date on the calendar.
+     - Parameter calendar: The calendar view object.
+     - Parameter appearance: The appearance object that defines the appearance of the calendar.
+     - Parameter date: The date for which the default event colors are requested.
+     - Returns: An array of UIColor objects representing the default event colors for the specified date.
+     */
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventDefaultColorsFor date: Date) -> [UIColor]? {
         if let tasks = todoScheduled[date.toString()] {
-
             if tasks.filter({ $0.isCompleted == false }).count > 0 { return [UIColor.systemRed] }
-     
             return [UIColor.systemGray2]
         }
         return nil
     }
     
-
+    /**
+     Retrieves the event selection colors for a specific date on the calendar.
+     - Parameter calendar: The calendar view object.
+     - Parameter appearance: The appearance object that defines the appearance of the calendar.
+     - Parameter date: The date for which the event selection colors are requested.
+     - Returns: An array of UIColor objects representing the event selection colors for the specified date.
+     */
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventSelectionColorsFor date: Date) -> [UIColor]? {
         if let tasks = todoScheduled[date.toString()] {
-
             if tasks.filter({ $0.isCompleted == false }).count > 0 { return [UIColor.systemRed] }
-
             return [UIColor.systemGray2]
         }
         return nil
     }
-    
-    
-    
-    
 }

@@ -1,16 +1,14 @@
-//
-//  AddTodoViewController.swift
-//  TaskApp
-//
-//  Created by student on 1/5/2024.
-//
-
 import UIKit
 import Foundation
 import RxSwift
 import RxCocoa
 
+/**
+ A view controller used for adding and editing tasks.
+ */
 class AddTaskViewController: UIViewController {
+    
+    // MARK: - IBOutlets
     
     @IBOutlet weak var txtTitle: UITextField!
     @IBOutlet weak var txtDate: UITextField!
@@ -18,7 +16,6 @@ class AddTaskViewController: UIViewController {
     @IBOutlet weak var txtDescription: UITextField!
     @IBOutlet weak var btnSave: UIBarButtonItem!
     @IBOutlet weak var viewTaskDetails: UIStackView!
-
     
     // MARK: - Instance Properties
     
@@ -58,12 +55,9 @@ class AddTaskViewController: UIViewController {
             return
         }
         
-
         self.title = "Edit Schedule"
         btnSave.isEnabled = true
         
-        
-
         txtTitle.text = task.title
         txtDescription.text = task.description
         if let date = task.date, let pickerDate = date.toDate() {
@@ -80,6 +74,9 @@ class AddTaskViewController: UIViewController {
     
     // MARK: - UI Binding
     
+    /**
+     Sets up the bindings between the UI elements and their corresponding variables.
+     */
     func setupBindings() {
         txtTitle.rx.text.asDriver()
             .map {
@@ -88,8 +85,6 @@ class AddTaskViewController: UIViewController {
             }
             .drive(btnSave.rx.isEnabled)
             .disposed(by: disposeBag)
-        
-    
         
         datePicker.rx.date.asDriver()
             .map { $0.toString() }
@@ -104,6 +99,9 @@ class AddTaskViewController: UIViewController {
     
     // MARK: - DatePicker
     
+    /**
+     Adds a date picker to the date text field.
+     */
     func addDatePicker() {
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
@@ -119,6 +117,9 @@ class AddTaskViewController: UIViewController {
         datePicker.datePickerMode = .date
     }
     
+    /**
+     Adds a time picker to the time text field.
+     */
     func addTimePicker() {
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
@@ -137,45 +138,49 @@ class AddTaskViewController: UIViewController {
     
     // MARK: - Actions
     
-
+    /**
+     Called when the save button is pressed.
+     - Parameter sender: The save button.
+     */
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
         txtTitle.endEditing(true)
         txtDescription.endEditing(true)
         
-        print("wegwr",txtTime.text)
         var timetxt = txtTime.text! + ":02"
         let todoObject = Todo(title: txtTitle.text!, date: txtDate.text!, time: timetxt, description: txtDescription.text)
-        todoObject.saveToUserDefaults() // 保存到 UserDefaults 中
+        todoObject.saveToUserDefaults()
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshHome"), object: nil, userInfo: nil)
        
         showAlert()
     }
     
+    /**
+     Displays a success alert after saving the task.
+     */
     func showAlert() {
         let alertController = UIAlertController(title: "Success", message: "Record data successfully.", preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alertController.addAction(okAction)
         
-        // 在视图控制器中呈现警报框
         present(alertController, animated: true, completion:{
             self.txtTitle.text = ""
             self.txtDescription.text = ""
-            
         })
     }
 
-
-    
-
+    /**
+     Called when the done button is pressed on the input accessory view.
+     */
     @objc func donePressed() {
         self.view.endEditing(true)
     }
-    
 
+    /**
+     Called when the trash button is pressed on the input accessory view.
+     */
     @objc func trashPressed() {
         txtTime.text = ""
         self.view.endEditing(true)
     }
-    
 }

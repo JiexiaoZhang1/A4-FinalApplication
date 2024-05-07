@@ -1,10 +1,3 @@
-//
-//  TodoTableViewCell.swift
-//  TaskApp
-//
-//  Created by student on 1/5/2024.
-//
-
 import UIKit
 import RxSwift
 import RxCocoa
@@ -16,31 +9,38 @@ class TodoTableViewCell: UITableViewCell {
     @IBOutlet weak var lblDescription: UILabel!
     @IBOutlet weak var btnCheckbox: CheckUIButton!
     
+    // Constants for cell reuse and nib name
     static let nibName = "TodoTableViewCell"
     static let identifier = "TodoCell"
     
+    // ViewModel for the cell
     var viewModel = TodoViewModel(Todo.empty)
+    
+    // Dispose bag for managing disposables
     var disposeBag = DisposeBag()
     
     override func awakeFromNib() {
         super.awakeFromNib()
     }
     
+    // Bind data to the cell
     func bind(task: Todo) {
         viewModel = TodoViewModel(task)
         
-        // UI Binding
+        // Set up UI bindings
         setupBindings()
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         
+        // Clear dispose bag when cell is reused
         disposeBag = DisposeBag()
     }
     
     // MARK: - UI Binding
     
+    // Set up bindings for UI elements
     func setupBindings() {
         let task = viewModel.task.asDriver()
         
@@ -54,6 +54,7 @@ class TodoTableViewCell: UITableViewCell {
             .drive(lblDescription.rx.text)
             .disposed(by: disposeBag)
         
+        // Hide description label if description is empty
         task.map {
                 if $0.description?.isEmpty == false { return false }
                 return true
@@ -66,6 +67,7 @@ class TodoTableViewCell: UITableViewCell {
             .drive(lblTime.rx.text)
             .disposed(by: disposeBag)
         
+        // Hide time label if time is empty
         task.map {
                 if $0.time?.isEmpty == false { return false }
                 return true
@@ -73,7 +75,7 @@ class TodoTableViewCell: UITableViewCell {
             .drive(lblTime.rx.isHidden)
             .disposed(by: disposeBag)
         
-
+        // Bind checkbox image
         viewModel.checkImageString.asDriver(onErrorJustReturn: "circle")
             .map { UIImage(systemName: $0) }
             .drive(btnCheckbox.rx.backgroundImage())
@@ -81,6 +83,8 @@ class TodoTableViewCell: UITableViewCell {
     }
 }
 
+// Custom UIButton subclass to hold an index path
 class CheckUIButton : UIButton {
     var indexPath: IndexPath?
 }
+
