@@ -134,7 +134,9 @@ class AddTaskViewController: UIViewController {
         
         timePicker.preferredDatePickerStyle = .wheels
         timePicker.datePickerMode = .time
+        
     }
+
     
     // MARK: - Actions
     
@@ -146,7 +148,16 @@ class AddTaskViewController: UIViewController {
         txtTitle.endEditing(true)
         txtDescription.endEditing(true)
         
+       // var timetxt = txtTime.text! + ":02"
         var timetxt = txtTime.text! + ":02"
+
+        // remove AM/PM string
+        timetxt = timetxt.replacingOccurrences(of: "\\b(?:AM|PM)\\b", with: "", options: .regularExpression)
+
+        // remove space
+        timetxt = timetxt.replacingOccurrences(of: "\\s+(\\d{2}(:\\d{2})?)$", with: "$1", options: .regularExpression)
+
+        print(timetxt)
         let todoObject = Todo(title: txtTitle.text!, date: txtDate.text!, time: timetxt, description: txtDescription.text)
         todoObject.saveToUserDefaults()
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshHome"), object: nil, userInfo: nil)

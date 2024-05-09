@@ -125,7 +125,7 @@ class CalendarViewController: UIViewController, UITableViewDataSource {
                 
                 // Get the current time
                 let currentTime = Date()
-                
+             //   print("Current time is \(currentTime)")
                 // Create a date formatter
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "HH:mm:ss" // 24-hour time format
@@ -133,10 +133,14 @@ class CalendarViewController: UIViewController, UITableViewDataSource {
                 // Get the string representation of the current time
                 let currentTimeString = dateFormatter.string(from: currentTime)
                 
+              //  print("Current time String is \(currentTimeString)")
+                
                 // Get today's date as a string
                 let today = Date()
                 dateFormatter.dateFormat = "yyyy-MM-dd"
                 let todayDateString = dateFormatter.string(from: today)
+                
+             //   print("Current date String is \(todayDateString)")
                 
                 // Check if there are todos for today
                 if let todosForToday = todoScheduled[todayDateString] {
