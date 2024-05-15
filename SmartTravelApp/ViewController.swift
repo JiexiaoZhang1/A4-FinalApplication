@@ -5,16 +5,9 @@ import Foundation
 /// A `UIViewController` that manages a collection view displaying a slider of images.
 class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource,UITableViewDelegate,UITableViewDataSource {
     
+    @IBOutlet weak var loader: UIActivityIndicatorView!
     @IBOutlet weak var theTable: UITableView!
-    // Arrays for title, descriptions, and image names
-       var mytitle:[String] = ["VIVID SYDNEY 2024","1770 FESTIVAL","GUTSY KANGAROO ISLAND"]
-       var mydescriptions:[String] = [
-           "Vivid Sydney is an annual creative festival that showcases the soul of our city, in collaboration with the most brilliant and boundary-pushing artists, thinkers and musicians of our time. ",
-           "The 1770 Festival is an annual commemorative event held in the Town of 1770, Queensland - the “only number on the map in Australia”! 1770 Festival is held around the historic date of 24 May 1770.",
-           "Come celebrate the determination and brilliance of the Island’s producers at Gutsy Kangaroo Island. An unforgettable experience with Kangaroo Island's beverages. "
-       ]
-       var myimage:[String] = ["t1","t2","t3"]
-    
+ 
     var timer = Timer()  // Timer used to change images automatically at regular intervals.
     var counter = 0  // Counter to track the current index of displayed image in the slider.
     
@@ -31,10 +24,18 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     var registerUsername: String = ""  // Variable to store the registered username.
     var registerPassword: String = ""  // Variable to store the registered password.
     
+    var myname:[String] = []
+    var myvicinity:[String] = []
+    var rating:[String] = []
+    var pricelevel:[String] = []
+    var useratng:[String] = []
+    var photoref:[String] = []
+    
     /// Called after the controller's view is loaded into memory.
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        loader.startAnimating()
         // Initialize the array with images named "01", "02", "03". Assumes these images exist in the asset catalog.
         sliderArray = [UIImage(named: "01")!, UIImage(named: "02")!, UIImage(named: "03")!]
         
@@ -46,6 +47,11 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         // Register the custom cell for use in creating new cells.
         self.sliderCollectionView.register(UINib(nibName: "SliderCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "SliderCollectionViewCell")
         showSlider()  // Initialize and start the image slider.
+        
+        //show restaurant
+        self.getAndPrintPlacesInfo()
+        self.theTable.reloadData()
+       
     }
 
     /// Initializes and configures the slider functionality.
@@ -56,6 +62,9 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         // Configure and start the timer to change images every 3 seconds.
         DispatchQueue.main.async {
             self.timer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
+            
+          
+            
         }
     }
     
@@ -106,18 +115,14 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         self.performSegue(withIdentifier: "showFunction", sender: true)
     }
 
-    @IBAction func dietsTapped(_ sender: Any) {
-        // Set the web URL for diets
-        FunctionViewController.weburl = "https://www.thespruceeats.com/australian-food-4162464"
-        // Perform segue to show the function view controller
-        self.performSegue(withIdentifier: "showFunction", sender: true)
+    @IBAction func weatherTapped(_ sender: Any) {
+        
+        self.performSegue(withIdentifier: "showWeather", sender: true)
     }
 
-    @IBAction func hotelTapped(_ sender: Any) {
-        // Set the web URL for hotels
-        FunctionViewController.weburl = "https://www.booking.com/country/au.en-gb.html"
-        // Perform segue to show the function view controller
-        self.performSegue(withIdentifier: "showFunction", sender: true)
+    @IBAction func newsTapped(_ sender: Any) {
+      
+        self.performSegue(withIdentifier: "shownews", sender: true)
     }
 
 }
@@ -152,19 +157,150 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of items in the data source array
-        return myimage.count
+        return myname.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Dequeue a reusable cell and cast it to your custom cell class
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListEventTableViewCell", for: indexPath) as! ListEventTableViewCell
+
+        cell.nameLabel.text = myname[indexPath.row]
+        cell.vicinityLabel.text = myvicinity[indexPath.row]
+        cell.ratingLabel.text = "Rating:" + rating[indexPath.row]
+        cell.userratingtotallabel.text = "User Ratings Total:" + useratng[indexPath.row]
         
-        // Set the description, title, and image of the cell based on the current row
-        cell.descriptions.text = mydescriptions[indexPath.row]
-        cell.title.text = mytitle[indexPath.row]
-        cell.myimage.image = UIImage(named: myimage[indexPath.row])
+        // Create the URL for the image using the photo reference
+        var imgString: String = ""
+        imgString = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=550&photoreference=" + photoref[indexPath.row]  + "&key=AIzaSyDldmLZx54Tx9LVpGHjPSJkfNjp04EmrCU"
+        
+        // Load the image from the URL asynchronously
+        loadImageFromURL(urlString: imgString) { (image) in
+            if let image = image {
+                // Set the image to the UIImageView
+                cell.myimage.image = image
+            } else {
+                // Handle the case when image loading fails
+                print("Failed to load image from URL: \(imgString)")
+            }
+        }
         
         return cell
+    }
+    
+
+
+    /**
+        Loads an image from a given URL string asynchronously.
+
+        - Parameters:
+            - urlString: The URL string from which to load the image.
+            - completion: A closure that is called when the image loading is complete. It takes an optional `UIImage` parameter.
+
+        - Note: If the URL is invalid or the image data cannot be retrieved, the completion closure is called with a `nil` image.
+
+        - Important: This function should be called from the main thread.
+    */
+    func loadImageFromURL(urlString: String, completion: @escaping (UIImage?) -> Void) {
+        if let url = URL(string: urlString) {
+            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+                if let data = data {
+                    DispatchQueue.main.async {
+                        if let image = UIImage(data: data) {
+                            completion(image)
+                        } else {
+                            completion(nil)
+                        }
+                    }
+                } else {
+                    completion(nil)
+                }
+            }
+            task.resume()
+        } else {
+            completion(nil)
+        }
+    }
+
+    
+    func fetchPlacesData(completion: @escaping (Data?) -> Void) {
+        let urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-35.2809,149.1300&radius=1000&type=restaurant&language=en-us&key=AIzaSyDldmLZx54Tx9LVpGHjPSJkfNjp04EmrCU" // 替换为你的API密钥
+        if let url = URL(string: urlString) {
+            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+                if let error = error {
+                    print("Error fetching data: \(error)")
+                    completion(nil)
+                    return
+                }
+                completion(data)
+            }
+            task.resume()
+        } else {
+            print("Invalid URL")
+            completion(nil)
+        }
+    }
+    
+    func parseJSON(jsonData: Data) -> [Place]? {
+        do {
+            let json = try JSONSerialization.jsonObject(with: jsonData, options: [])
+            if let jsonDict = json as? [String: Any],
+               let results = jsonDict["results"] as? [[String: Any]] {
+                var places = [Place]()
+                for result in results {
+                    if let name = result["name"] as? String,
+                       let vicinity = result["vicinity"] as? String,
+                       let rating = result["rating"] as? Double,
+                       let priceLevel = result["price_level"] as? Int,
+                       let userRatingsTotal = result["user_ratings_total"] as? Int {
+                        var photoReference: String? // 默认为nil
+                        if let photos = result["photos"] as? [[String: Any]],
+                           let firstPhoto = photos.first,
+                           let reference = firstPhoto["photo_reference"] as? String {
+                            photoReference = reference
+                        }
+                        let place = Place(name: name,
+                                          vicinity: vicinity,
+                                          rating: rating,
+                                          priceLevel: priceLevel,
+                                          userRatingsTotal: userRatingsTotal,
+                                          photoReference: photoReference)
+                        places.append(place)
+                    }
+                }
+                return places
+            }
+        } catch {
+            print("Error parsing JSON: \(error)")
+        }
+        return nil
+    }
+
+    func getAndPrintPlacesInfo() {
+        fetchPlacesData { [self] (data) in
+            if let data = data,
+               let places = parseJSON(jsonData: data) {
+                
+                for place in places {
+                    myname.append(place.name)
+                    myvicinity.append(place.vicinity)
+                    rating.append(String(place.rating))
+                    pricelevel.append(String(place.rating))
+                    useratng.append(String(place.userRatingsTotal))
+                    loader.stopAnimating()
+                    loader.isHidden = true
+                    print("Name: \(place.name)")
+                    print("Vicinity: \(place.vicinity)")
+                    print("Rating: \(place.rating)")
+                    print("Price Level: \(place.priceLevel)")
+                    print("User Ratings Total: \(place.userRatingsTotal)")
+                    if let photoReference = place.photoReference {
+                        print("Photo Reference: \(photoReference)")
+                        photoref.append(photoReference)
+                    }
+                    print("\n")
+                }
+            }
+        }
     }
 
     

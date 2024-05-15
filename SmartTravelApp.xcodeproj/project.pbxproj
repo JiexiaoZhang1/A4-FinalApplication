@@ -18,6 +18,10 @@
 		9D2CD1C02BEA7E2A00FB2B53 /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2CD1BF2BEA7E2A00FB2B53 /* DateFormatter+Extensions.swift */; };
 		9D2CD1C22BEA838200FB2B53 /* FunctionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2CD1C12BEA838200FB2B53 /* FunctionViewController.swift */; };
 		9D2CD1C62BEA927500FB2B53 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2CD1C52BEA927500FB2B53 /* ChatViewController.swift */; };
+		9D2CF2312BF50BE200C10BF1 /* MyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2CF2302BF50BE200C10BF1 /* MyTableViewCell.swift */; };
+		9D2CF2332BF50BE700C10BF1 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2CF2322BF50BE700C10BF1 /* MainTableViewCell.swift */; };
+		9D2CF2352BF50BF400C10BF1 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2CF2342BF50BF400C10BF1 /* Data.swift */; };
+		9D2CF2372BF50BFE00C10BF1 /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2CF2362BF50BFE00C10BF1 /* WeatherViewController.swift */; };
 		9D3C93EA2BE2AC3C00649B37 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3C93E92BE2AC3C00649B37 /* AppDelegate.swift */; };
 		9D3C93EC2BE2AC3C00649B37 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3C93EB2BE2AC3C00649B37 /* SceneDelegate.swift */; };
 		9D3C93EE2BE2AC3C00649B37 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3C93ED2BE2AC3C00649B37 /* ViewController.swift */; };
@@ -28,6 +32,10 @@
 		9D3C94032BE2ACDC00649B37 /* SliderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3C94002BE2ACDC00649B37 /* SliderCollectionViewCell.swift */; };
 		9D3C94042BE2ACDC00649B37 /* SliderCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D3C94012BE2ACDC00649B37 /* SliderCollectionViewCell.xib */; };
 		9D3C94062BE2AD7C00649B37 /* RoundCircleClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3C94052BE2AD7C00649B37 /* RoundCircleClass.swift */; };
+		9DB22D4B2BF512E400BFEE08 /* newsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB22D4A2BF512E400BFEE08 /* newsViewController.swift */; };
+		9DB22D4E2BF518F400BFEE08 /* locationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB22D4D2BF518F400BFEE08 /* locationViewController.swift */; };
+		9DB22D512BF5203900BFEE08 /* RestaurantViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB22D502BF5203900BFEE08 /* RestaurantViewController.swift */; };
+		9DB22D542BF544C400BFEE08 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB22D532BF544C400BFEE08 /* MapViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +50,10 @@
 		9D2CD1BF2BEA7E2A00FB2B53 /* DateFormatter+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extensions.swift"; sourceTree = "<group>"; };
 		9D2CD1C12BEA838200FB2B53 /* FunctionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionViewController.swift; sourceTree = "<group>"; };
 		9D2CD1C52BEA927500FB2B53 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		9D2CF2302BF50BE200C10BF1 /* MyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyTableViewCell.swift; sourceTree = "<group>"; };
+		9D2CF2322BF50BE700C10BF1 /* MainTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
+		9D2CF2342BF50BF400C10BF1 /* Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
+		9D2CF2362BF50BFE00C10BF1 /* WeatherViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
 		9D3C93E62BE2AC3C00649B37 /* SmartTravelApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartTravelApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D3C93E92BE2AC3C00649B37 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9D3C93EB2BE2AC3C00649B37 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -54,6 +66,10 @@
 		9D3C94002BE2ACDC00649B37 /* SliderCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderCollectionViewCell.swift; sourceTree = "<group>"; };
 		9D3C94012BE2ACDC00649B37 /* SliderCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SliderCollectionViewCell.xib; sourceTree = "<group>"; };
 		9D3C94052BE2AD7C00649B37 /* RoundCircleClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundCircleClass.swift; sourceTree = "<group>"; };
+		9DB22D4A2BF512E400BFEE08 /* newsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newsViewController.swift; sourceTree = "<group>"; };
+		9DB22D4D2BF518F400BFEE08 /* locationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = locationViewController.swift; sourceTree = "<group>"; };
+		9DB22D502BF5203900BFEE08 /* RestaurantViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantViewController.swift; sourceTree = "<group>"; };
+		9DB22D532BF544C400BFEE08 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		A8DD399836785A9E251288EA /* Pods-SmartTravelApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartTravelApp.release.xcconfig"; path = "Target Support Files/Pods-SmartTravelApp/Pods-SmartTravelApp.release.xcconfig"; sourceTree = "<group>"; };
 		BBC921C354E23407E08DA21E /* Pods_SmartTravelApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartTravelApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -88,6 +104,17 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		9D2CF22D2BF50B2100C10BF1 /* Weather */ = {
+			isa = PBXGroup;
+			children = (
+				9D2CF2362BF50BFE00C10BF1 /* WeatherViewController.swift */,
+				9D2CF2342BF50BF400C10BF1 /* Data.swift */,
+				9D2CF2302BF50BE200C10BF1 /* MyTableViewCell.swift */,
+				9D2CF2322BF50BE700C10BF1 /* MainTableViewCell.swift */,
+			);
+			path = Weather;
+			sourceTree = "<group>";
+		};
 		9D3C93DD2BE2AC3C00649B37 = {
 			isa = PBXGroup;
 			children = (
@@ -109,6 +136,11 @@
 		9D3C93E82BE2AC3C00649B37 /* SmartTravelApp */ = {
 			isa = PBXGroup;
 			children = (
+				9DB22D522BF544AB00BFEE08 /* Map */,
+				9DB22D4F2BF5202D00BFEE08 /* Food */,
+				9DB22D4C2BF518E800BFEE08 /* Location */,
+				9DB22D492BF512D900BFEE08 /* News */,
+				9D2CF22D2BF50B2100C10BF1 /* Weather */,
 				9D2CD1BB2BEA7DF100FB2B53 /* Models */,
 				9D3C94022BE2ACDC00649B37 /* Cell */,
 				9D3C93E92BE2AC3C00649B37 /* AppDelegate.swift */,
@@ -139,6 +171,38 @@
 				9D2CD14A2BEA754700FB2B53 /* ListEventTableViewCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		9DB22D492BF512D900BFEE08 /* News */ = {
+			isa = PBXGroup;
+			children = (
+				9DB22D4A2BF512E400BFEE08 /* newsViewController.swift */,
+			);
+			path = News;
+			sourceTree = "<group>";
+		};
+		9DB22D4C2BF518E800BFEE08 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				9DB22D4D2BF518F400BFEE08 /* locationViewController.swift */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
+		9DB22D4F2BF5202D00BFEE08 /* Food */ = {
+			isa = PBXGroup;
+			children = (
+				9DB22D502BF5203900BFEE08 /* RestaurantViewController.swift */,
+			);
+			path = Food;
+			sourceTree = "<group>";
+		};
+		9DB22D522BF544AB00BFEE08 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				9DB22D532BF544C400BFEE08 /* MapViewController.swift */,
+			);
+			path = Map;
 			sourceTree = "<group>";
 		};
 		9DEEBAAB1632FD8878849D89 /* Frameworks */ = {
@@ -271,14 +335,22 @@
 				9D2CD1512BEA7C6000FB2B53 /* CalendarViewController.swift in Sources */,
 				9D3C94032BE2ACDC00649B37 /* SliderCollectionViewCell.swift in Sources */,
 				9D2CD1C22BEA838200FB2B53 /* FunctionViewController.swift in Sources */,
+				9D2CF2372BF50BFE00C10BF1 /* WeatherViewController.swift in Sources */,
 				9D3C94062BE2AD7C00649B37 /* RoundCircleClass.swift in Sources */,
+				9D2CF2332BF50BE700C10BF1 /* MainTableViewCell.swift in Sources */,
+				9D2CF2352BF50BF400C10BF1 /* Data.swift in Sources */,
+				9DB22D542BF544C400BFEE08 /* MapViewController.swift in Sources */,
+				9DB22D512BF5203900BFEE08 /* RestaurantViewController.swift in Sources */,
 				9D3C93EE2BE2AC3C00649B37 /* ViewController.swift in Sources */,
 				9D2CD14D2BEA7C5200FB2B53 /* TodoTableViewCell.swift in Sources */,
+				9DB22D4B2BF512E400BFEE08 /* newsViewController.swift in Sources */,
 				9D3C93F42BE2AC3C00649B37 /* SmartTravelApp.xcdatamodeld in Sources */,
+				9D2CF2312BF50BE200C10BF1 /* MyTableViewCell.swift in Sources */,
 				9D2CD14B2BEA754700FB2B53 /* ListEventTableViewCell.swift in Sources */,
 				9D3C93EA2BE2AC3C00649B37 /* AppDelegate.swift in Sources */,
 				9D2CD14F2BEA7C5900FB2B53 /* AddTaskViewController.swift in Sources */,
 				9D2CD1C02BEA7E2A00FB2B53 /* DateFormatter+Extensions.swift in Sources */,
+				9DB22D4E2BF518F400BFEE08 /* locationViewController.swift in Sources */,
 				9D2CD1C62BEA927500FB2B53 /* ChatViewController.swift in Sources */,
 				9D3C93EC2BE2AC3C00649B37 /* SceneDelegate.swift in Sources */,
 			);
@@ -433,9 +505,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WXVZ7AA2UP;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SmartTravelApp/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "So we can find your location to plot on the map";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "So we can find your location to plot on the map";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -466,9 +541,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WXVZ7AA2UP;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SmartTravelApp/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "So we can find your location to plot on the map";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "So we can find your location to plot on the map";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
