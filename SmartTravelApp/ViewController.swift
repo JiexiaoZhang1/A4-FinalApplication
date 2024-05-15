@@ -55,14 +55,14 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         self.theTable.reloadData()
        
-        self.timerLoadData = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(monitorData), userInfo: nil, repeats: true)
+        self.timerLoadData = Timer.scheduledTimer(timeInterval: 20, target: self, selector: #selector(monitorData), userInfo: nil, repeats: true)
         
     }
     
     @objc func monitorData() {
         if myname.count != 0{
             self.theTable.reloadData()
-            timerLoadData.invalidate()
+            //timerLoadData.invalidate()
         }
     }
 
