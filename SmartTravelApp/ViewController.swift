@@ -31,6 +31,8 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     var useratng:[String] = []
     var photoref:[String] = []
     
+    var timerLoadData = Timer()
+    
     /// Called after the controller's view is loaded into memory.
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,8 +52,18 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         //show restaurant
         self.getAndPrintPlacesInfo()
+        
         self.theTable.reloadData()
        
+        self.timerLoadData = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(monitorData), userInfo: nil, repeats: true)
+        
+    }
+    
+    @objc func monitorData() {
+        if myname.count != 0{
+            self.theTable.reloadData()
+            timerLoadData.invalidate()
+        }
     }
 
     /// Initializes and configures the slider functionality.
