@@ -1,9 +1,3 @@
-//
-//  WeatherViewController.swift
-//  SmartTravelApp
-//
-//  Created by student on 16/5/2024.
-//
 
 
 import UIKit
