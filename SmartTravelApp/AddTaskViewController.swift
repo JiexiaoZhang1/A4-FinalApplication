@@ -18,7 +18,6 @@ class AddTaskViewController: UIViewController {
     @IBOutlet weak var viewTaskDetails: UIStackView!
     
     // MARK: - Instance Properties
-    
     static let storyboardID = "addTask"
     
     let scheduled = 0, anytime = 1

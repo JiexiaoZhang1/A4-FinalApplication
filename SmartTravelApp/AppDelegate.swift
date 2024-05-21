@@ -5,7 +5,7 @@ import UserNotifications
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDelegate {
 
-    var test = ""
+    var test = "123"
     /// Invoked when the application is about to start. This is the entry point for the application's initialization.
     /// - Parameters:
     ///   - application: The singleton application instance.

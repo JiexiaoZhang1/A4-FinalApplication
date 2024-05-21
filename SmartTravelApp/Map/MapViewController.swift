@@ -7,7 +7,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     @IBOutlet weak var totaldistanceLabel: UILabel! // Label to display total distance
     @IBOutlet weak var speedLabel: UILabel! // Label to display speed
-    
     @IBOutlet weak var bottomView: UIView! // View at the bottom of the screen
     
     // MARK: Map & Location related stuff

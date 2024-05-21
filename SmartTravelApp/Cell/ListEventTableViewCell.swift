@@ -2,11 +2,11 @@ import UIKit
 
 class ListEventTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var userratingtotallabel: UILabel!
-    @IBOutlet weak var ratingLabel: UILabel!
-    @IBOutlet weak var vicinityLabel: UILabel!
+
+    @IBOutlet weak var addresslabel: UILabel!
+    @IBOutlet weak var bearinglabel: UILabel!
+    @IBOutlet weak var distancelabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
-    
     @IBOutlet weak var myimage: UIImageView!
     
     override func awakeFromNib() {

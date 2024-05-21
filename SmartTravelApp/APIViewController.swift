@@ -8,10 +8,10 @@
 import UIKit
 import CoreLocation
 
-class HotelsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource, CLLocationManagerDelegate {
+class APIViewController: UIViewController,UITableViewDelegate,UITableViewDataSource, CLLocationManagerDelegate {
     @IBOutlet weak var loader: UIActivityIndicatorView!
     @IBOutlet weak var theTable: UITableView!
- 
+    static var category:String = ""
     var timer = Timer()  // Timer used to change images automatically at regular intervals.
     var counter = 0  // Counter to track the current index of displayed image in the slider.
     
@@ -22,6 +22,13 @@ class HotelsViewController: UIViewController,UITableViewDelegate,UITableViewData
     /// Called after the controller's view is loaded into memory.
     override func viewDidLoad() {
         super.viewDidLoad()
+      
+        if APIViewController.category == "hotels"{
+            self.title = "Hotels"
+        }else{
+            self.title = "Attractions"
+        }
+        
         hasLoadedData = false
         loader.startAnimating()
     
@@ -108,7 +115,7 @@ class HotelsViewController: UIViewController,UITableViewDelegate,UITableViewData
         if imageurl.count == name.count && imageurl.count != 0 && name.count != 0
             &&  imageurl.first != "1"
         {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { // 延迟1秒
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 [self] in
                 theTable.reloadData()
                 loader.isHidden = true
@@ -132,8 +139,12 @@ class HotelsViewController: UIViewController,UITableViewDelegate,UITableViewData
     var totalCount = 0
     var isFinishLoadInitialData:Bool = false
     func loaddata(position:String) {
+       
+      
+        
+        
         isFinishLoadInitialData = false
-        let url = URL(string: "https://api.content.tripadvisor.com/api/v1/location/nearby_search?latLong=\(position)&key=FC2484B01C6841F7974B9ECDF8967443&category=hotels&language=en&radiusUnit=600")!
+        let url = URL(string: "https://api.content.tripadvisor.com/api/v1/location/nearby_search?latLong=\(position)&key=FC2484B01C6841F7974B9ECDF8967443&category=\(APIViewController.category)&language=en&radiusUnit=600")!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
 
@@ -246,7 +257,7 @@ class HotelsViewController: UIViewController,UITableViewDelegate,UITableViewData
   
 }
 
-extension HotelsViewController {
+extension APIViewController {
     
   
     /// Called just before the view controller’s view is about to be added to a view hierarchy.
@@ -290,7 +301,7 @@ extension HotelsViewController {
                
             } else {
            
-                cell.myimage.image = UIImage(named: "t1")
+                cell.myimage.image = UIImage(named: "noimage")
                
             }
         }

@@ -1,9 +1,10 @@
 import UIKit
+import CoreLocation
 import AVFoundation
 import Foundation
 
 /// A `UIViewController` that manages a collection view displaying a slider of images.
-class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource,UITableViewDelegate,UITableViewDataSource {
+class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource,UITableViewDelegate,UITableViewDataSource, CLLocationManagerDelegate {
     
     @IBOutlet weak var loader: UIActivityIndicatorView!
     @IBOutlet weak var theTable: UITableView!
@@ -24,19 +25,15 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     var registerUsername: String = ""  // Variable to store the registered username.
     var registerPassword: String = ""  // Variable to store the registered password.
     
-    var myname:[String] = []
-    var myvicinity:[String] = []
-    var rating:[String] = []
-    var pricelevel:[String] = []
-    var useratng:[String] = []
-    var photoref:[String] = []
     
+    var myposition:String = "-37.9105126,145.1344988"
     var timerLoadData = Timer()
+    let locationManager = CLLocationManager()
     
     /// Called after the controller's view is loaded into memory.
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        hasLoadedData = false
         loader.startAnimating()
         // Initialize the array with images named "01", "02", "03". Assumes these images exist in the asset catalog.
         sliderArray = [UIImage(named: "01")!, UIImage(named: "02")!, UIImage(named: "03")!]
@@ -49,23 +46,225 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         // Register the custom cell for use in creating new cells.
         self.sliderCollectionView.register(UINib(nibName: "SliderCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "SliderCollectionViewCell")
         showSlider()  // Initialize and start the image slider.
-        
-        //show restaurant
-        self.getAndPrintPlacesInfo()
-        
-        self.theTable.reloadData()
+
+        self.timerLoadData = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(monitorData), userInfo: nil, repeats: true)
        
-        self.timerLoadData = Timer.scheduledTimer(timeInterval: 20, target: self, selector: #selector(monitorData), userInfo: nil, repeats: true)
+
         
+        self.getCurrentLocationAndLoadData()
+
+        print("Current \(myposition)")
+     
     }
     
-    @objc func monitorData() {
-        if myname.count != 0{
-            self.theTable.reloadData()
-            //timerLoadData.invalidate()
-        }
+    func getCurrentLocation(completion: @escaping (String) -> Void) {
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.delegate = self
+        locationManager.startUpdatingLocation()
+        
+        locationCompletionHandler = completion
     }
 
+    var a = ""
+    private var hasLoadedData = false
+    func getCurrentLocationAndLoadData() {
+        getCurrentLocation { [weak self] position in
+            print("Current position: \(position)")
+            
+            guard let self = self else { return }
+
+            if self.hasLoadedData {
+                return
+            }
+            
+            if self.a == position && !position.isEmpty {
+                print("Current position: \(position)")
+                self.loaddata(position: position)
+                self.hasLoadedData = true
+            }
+            
+            self.a = position
+        }
+    }
+    
+    var locationCompletionHandler: ((String) -> Void)?
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+        
+       
+        let latitude = location.coordinate.latitude
+        let longitude = location.coordinate.longitude
+        myposition = "\(latitude),\(longitude)"
+        
+ 
+        locationManager.stopUpdatingLocation()
+        
+     
+        if let handler = locationCompletionHandler {
+            handler(myposition)
+        }
+    }
+        
+        func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+            print("Error getting location: \(error.localizedDescription)")
+            if self.hasLoadedData {
+                return
+            }
+            self.loaddata(position: myposition)
+            hasLoadedData = true
+        }
+    
+    
+    private var requestCount = 0
+    var isFinishImage:Bool = false
+    @objc func monitorData() {
+
+        if isFinishLoadInitialData{
+            requestCount = location_id.count
+            imageurl = Array(repeating: "1", count: location_id.count)
+            loadImageURLs()
+          
+        }
+  
+        if imageurl.count == name.count && imageurl.count != 0 && name.count != 0
+            &&  imageurl.first != "1"
+        {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { // 延迟1秒
+                [self] in
+                theTable.reloadData()
+                loader.isHidden = true
+                loader.stopAnimating()
+                
+            }
+            timerLoadData.invalidate()
+        }else{
+            //print("not")
+        }
+       
+    }
+    
+    var location_id: [String] = []
+    var name: [String] = []
+    var distance: [String] = []
+    var bearing: [String] = []
+    var address_obj: [String] = []
+    var imageurl: [String] = []
+    var completionCount = 0
+    var totalCount = 0
+    var isFinishLoadInitialData:Bool = false
+    func loaddata(position:String) {
+        isFinishLoadInitialData = false
+        let url = URL(string: "https://api.content.tripadvisor.com/api/v1/location/nearby_search?latLong=\(position)&key=FC2484B01C6841F7974B9ECDF8967443&category=restaurants&language=en&radiusUnit=600")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+
+        let task = URLSession.shared.dataTask(with: request) { [self] (data, response, error) in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+                return
+            }
+
+            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                print("Server responded with an error")
+                return
+            }
+
+            guard let data = data else {
+                print("No data received")
+                return
+            }
+
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: [])
+                if let dictionary = json as? [String: Any] {
+                    if let dataArray = dictionary["data"] as? [[String: Any]] {
+                        totalCount = dataArray.count
+                        for item in dataArray {
+                            if let location_id = item["location_id"] as? String,
+                               let name = item["name"] as? String,
+                               let distance = item["distance"] as? String,
+                               let bearing = item["bearing"] as? String,
+                               let address_obj = item["address_obj"] as? [String: String],
+                               let address_string = address_obj["address_string"] {
+                                self.location_id.append(location_id)
+                                self.name.append(name)
+                                self.distance.append(distance)
+                                self.bearing.append(bearing)
+                                self.address_obj.append(address_string)
+                                //loadImageURL(locationid: location_id)
+                            }
+                        }
+                        isFinishLoadInitialData = true
+                    }
+                }
+            } catch {
+                print("Error decoding JSON: \(error.localizedDescription)")
+            }
+            
+            
+        }
+
+      
+        task.resume()
+    }
+
+    func loadImageURLs() {
+        
+        for (index, locationid) in location_id.enumerated() {
+            let urlString = "https://api.content.tripadvisor.com/api/v1/location/\(locationid)/photos?key=FC2484B01C6841F7974B9ECDF8967443&language=en"
+            print(urlString)
+            print("")
+
+            guard let url = URL(string: urlString) else {
+                print("Invalid URL")
+                continue
+            }
+
+            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+                if let error = error {
+                    print("Error: \(error.localizedDescription)")
+                    return
+                }
+
+                guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                    print("Server responded with an error")
+                    return
+                }
+
+                guard let data = data else {
+                    print("No data received")
+                    return
+                }
+
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: [])
+                    if let jsonDict = json as? [String: Any],
+                       let dataArray = jsonDict["data"] as? [[String: Any]],
+                       let firstData = dataArray.first,
+                       let imagesDict = firstData["images"] as? [String: Any],
+                       let originalImageDict = imagesDict["original"] as? [String: Any],
+                       let imageURL = originalImageDict["url"] as? String {
+                       
+                        self.imageurl[index] = imageURL
+                       
+                    } else {
+                    
+                        self.imageurl[index] = ""
+                        
+                    }
+                } catch {
+                    print("Error decoding JSON: \(error.localizedDescription)")
+                }
+  
+                self.isFinishLoadInitialData = false
+                //self.theTable.reloadData()
+            }
+
+            task.resume()
+        }
+    }
+    
     /// Initializes and configures the slider functionality.
     func showSlider() {
         pageView.numberOfPages = sliderArray.count  // Set the number of pages in the page control.
@@ -114,17 +313,13 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         return cell!
     }
     @IBAction func attractionsTapped(_ sender: Any) {
-        // Set the web URL for attractions
-        FunctionViewController.weburl = "https://www.australia.com/en-sg/places.html"
-        // Perform segue to show the function view controller
-        self.performSegue(withIdentifier: "showFunction", sender: true)
+        APIViewController.category = "attractions"
+        self.performSegue(withIdentifier: "showapiview", sender: true)
     }
 
-    @IBAction func transportationTapped(_ sender: Any) {
-        // Set the web URL for transportation
-        FunctionViewController.weburl = "https://www.australia.com/en-sg/facts-and-planning/getting-around.html"
-        // Perform segue to show the function view controller
-        self.performSegue(withIdentifier: "showFunction", sender: true)
+    @IBAction func hotelTapped(_ sender: Any) {
+        APIViewController.category = "hotels"
+        self.performSegue(withIdentifier: "showapiview", sender: true)
     }
 
     @IBAction func weatherTapped(_ sender: Any) {
@@ -169,38 +364,48 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of items in the data source array
-        return myname.count
+        return location_id.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Dequeue a reusable cell and cast it to your custom cell class
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListEventTableViewCell", for: indexPath) as! ListEventTableViewCell
 
-        cell.nameLabel.text = myname[indexPath.row]
-        cell.vicinityLabel.text = myvicinity[indexPath.row]
-        cell.ratingLabel.text = "Rating:" + rating[indexPath.row]
-        cell.userratingtotallabel.text = "User Ratings Total:" + useratng[indexPath.row]
         
-        // Create the URL for the image using the photo reference
-        var imgString: String = ""
-        imgString = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=550&photoreference=" + photoref[indexPath.row]  + "&key=AIzaSyDldmLZx54Tx9LVpGHjPSJkfNjp04EmrCU"
+        cell.nameLabel.text = "Name: "  + name[indexPath.row]
+
+        if let distanceInMeters = Double(distance[indexPath.row]) {
+               var distanceString: String
+               if distanceInMeters < 1 {
+                   distanceString = String(format: "%.2f m", distanceInMeters * 1000)
+               } else {
+                   distanceString = String(format: "%.2f m", distanceInMeters)
+               }
+            cell.distancelabel.text = "Distance: \(distanceString)"
+           } else {
+               cell.distancelabel.text = "Distance: N/A"
+           }
         
-        // Load the image from the URL asynchronously
-        loadImageFromURL(urlString: imgString) { (image) in
+        cell.bearinglabel.text = "Bearing: " + bearing[indexPath.row]
+        cell.addresslabel.text = address_obj[indexPath.row]
+        cell.addresslabel.numberOfLines = 0
+       
+       loadImageFromURL(urlString: imageurl[indexPath.row]) { (image) in
             if let image = image {
                 // Set the image to the UIImageView
                 cell.myimage.image = image
+                cell.myimage.contentMode = .scaleToFill
+               
             } else {
-                // Handle the case when image loading fails
-                print("Failed to load image from URL: \(imgString)")
+           
+                cell.myimage.image = UIImage(named: "noimage")
+               
             }
         }
         
         return cell
     }
     
-
-
     /**
         Loads an image from a given URL string asynchronously.
 
@@ -213,6 +418,11 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
         - Important: This function should be called from the main thread.
     */
     func loadImageFromURL(urlString: String, completion: @escaping (UIImage?) -> Void) {
+        if urlString == "" {
+            completion(nil)
+            return
+        }
+        
         if let url = URL(string: urlString) {
             let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
                 if let data = data {
@@ -234,86 +444,8 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     }
 
     
-    func fetchPlacesData(completion: @escaping (Data?) -> Void) {
-        let urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-35.2809,149.1300&radius=1000&type=restaurant&language=en-us&key=AIzaSyDldmLZx54Tx9LVpGHjPSJkfNjp04EmrCU" // 替换为你的API密钥
-        if let url = URL(string: urlString) {
-            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-                if let error = error {
-                    print("Error fetching data: \(error)")
-                    completion(nil)
-                    return
-                }
-                completion(data)
-            }
-            task.resume()
-        } else {
-            print("Invalid URL")
-            completion(nil)
-        }
-    }
     
-    func parseJSON(jsonData: Data) -> [Place]? {
-        do {
-            let json = try JSONSerialization.jsonObject(with: jsonData, options: [])
-            if let jsonDict = json as? [String: Any],
-               let results = jsonDict["results"] as? [[String: Any]] {
-                var places = [Place]()
-                for result in results {
-                    if let name = result["name"] as? String,
-                       let vicinity = result["vicinity"] as? String,
-                       let rating = result["rating"] as? Double,
-                       let priceLevel = result["price_level"] as? Int,
-                       let userRatingsTotal = result["user_ratings_total"] as? Int {
-                        var photoReference: String? // 默认为nil
-                        if let photos = result["photos"] as? [[String: Any]],
-                           let firstPhoto = photos.first,
-                           let reference = firstPhoto["photo_reference"] as? String {
-                            photoReference = reference
-                        }
-                        let place = Place(name: name,
-                                          vicinity: vicinity,
-                                          rating: rating,
-                                          priceLevel: priceLevel,
-                                          userRatingsTotal: userRatingsTotal,
-                                          photoReference: photoReference)
-                        places.append(place)
-                    }
-                }
-                return places
-            }
-        } catch {
-            print("Error parsing JSON: \(error)")
-        }
-        return nil
-    }
-
-    func getAndPrintPlacesInfo() {
-        fetchPlacesData { [self] (data) in
-            if let data = data,
-               let places = parseJSON(jsonData: data) {
-                
-                for place in places {
-                    myname.append(place.name)
-                    myvicinity.append(place.vicinity)
-                    rating.append(String(place.rating))
-                    pricelevel.append(String(place.rating))
-                    useratng.append(String(place.userRatingsTotal))
-                    loader.stopAnimating()
-                    loader.isHidden = true
-                    print("Name: \(place.name)")
-                    print("Vicinity: \(place.vicinity)")
-                    print("Rating: \(place.rating)")
-                    print("Price Level: \(place.priceLevel)")
-                    print("User Ratings Total: \(place.userRatingsTotal)")
-                    if let photoReference = place.photoReference {
-                        print("Photo Reference: \(photoReference)")
-                        photoref.append(photoReference)
-                    }
-                    print("\n")
-                }
-            }
-        }
-    }
+    
 
     
     
