@@ -446,57 +446,85 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     }
 
     
+    // This method is called when a row in the table view is selected
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // Start the activity indicator animation and make it visible
         loader.startAnimating()
         self.loader.isHidden = false
+        
+        // Call the loaddata function with the appropriate URL
         loaddata(urls: "https://api.content.tripadvisor.com/api/v1/location/\(location_id[indexPath.row])/details?key=FC2484B01C6841F7974B9ECDF8967443")
     }
-   
+
+    // This method fetches data from the specified URL
     func loaddata(urls:String){
+        // Create a URL object from the provided string
         guard let url = URL(string: urls) else {
-                   return
-               }
+            return
+        }
 
-               let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-                   if let error = error {
-                       print("Error: \(error.localizedDescription)")
-                       return
-                   }
+        // Create a data task to fetch the data from the URL
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            // Check for any errors
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+                return
+            }
 
-                   if let data = data {
-                       do {
-                           let json = try JSONSerialization.jsonObject(with: data, options: [])
-                           if let dictionary = json as? [String: Any] {
-                               DispatchQueue.main.async {
-                                   if let writeReviewURL = dictionary["web_url"] as? String {
-                                       print(writeReviewURL)
-                                       self.weburl = writeReviewURL
-                                       guard let url = URL(string: self.weburl) else {
-                                                  return
-                                              }
-                                       // Load the writeReviewURL in the WKWebView
-                                       let safariVC = SFSafariViewController(url: url)
-                                       self.present(safariVC, animated: true, completion: {
-                                           self.loader.stopAnimating()
-                                           self.loader.isHidden = true
-                                       })
-                                   }
-                               }
-                           }
-                       } catch {
-                           print("Error decoding JSON: \(error.localizedDescription)")
-                       }
-                   }
-               }
-               task.resume()
+            // If data is available, parse the JSON response
+            if let data = data {
+                do {
+                    // Convert the data to a JSON object
+                    let json = try JSONSerialization.jsonObject(with: data, options: [])
+                    
+                    // Check if the JSON object is a dictionary
+                    if let dictionary = json as? [String: Any] {
+                        // Update the UI on the main thread
+                        DispatchQueue.main.async {
+                            // Check if the "web_url" key exists in the dictionary
+                            if let writeReviewURL = dictionary["web_url"] as? String {
+                                print(writeReviewURL)
+                                self.weburl = writeReviewURL
+                                
+                                // Create a URL object from the web_url string
+                                guard let url = URL(string: self.weburl) else {
+                                    return
+                                }
+                                
+                                // Load the writeReviewURL in the SFSafariViewController
+                                let safariVC = SFSafariViewController(url: url)
+                                self.present(safariVC, animated: true, completion: {
+                                    // Stop the activity indicator animation and hide it
+                                    self.loader.stopAnimating()
+                                    self.loader.isHidden = true
+                                })
+                            }
+                        }
+                    }
+                } catch {
+                    print("Error decoding JSON: \(error.localizedDescription)")
+                }
+            }
+        }
+        
+        // Start the data task
+        task.resume()
     }
-    
+
+    // This method configures the trailing swipe actions for a table view row
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        // Get the title of the current row
         let title = name[indexPath.row]
+        
+        // Retrieve the saved titles from UserDefaults
         let savedTitles = UserDefaults.standard.array(forKey: "SavedTitles") as? [String] ?? []
+        
+        // Check if the current title is already saved
         let isTitleSaved = savedTitles.contains(title)
         
+        // Create a "Favorite" action
         let favorite = UIContextualAction(style: .normal, title: "Favorite") { (action, view, completion) in
+            // If the title is not saved yet
             if !isTitleSaved {
                 // Add the title to the array and save it in UserDefaults
                 var updatedTitles = savedTitles
@@ -509,16 +537,17 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
                 self.present(alertController, animated: true, completion: nil)
             }
             
+            // Indicate that the action was completed successfully
             completion(true)
         }
         
+        // Set the background color of the "Favorite" action
         favorite.backgroundColor = UIColor.systemYellow
         
+        // Create a swipe actions configuration with the "Favorite" action
         let configuration = UISwipeActionsConfiguration(actions: [favorite])
         return configuration
     }
-
-
 
     
     
