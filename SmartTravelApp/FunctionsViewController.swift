@@ -6,24 +6,36 @@
 //
 
 import UIKit
+import WebKit
 
-class FunctionsViewController: UIViewController {
-
+class FunctionViewController: UIViewController, WKNavigationDelegate {
+    
+    // Static variable to store the web URL
+    static var weburl: String = ""
+    // Outlet for the WKWebView
+    @IBOutlet weak var myWebView: WKWebView!
+    // Outlet for the UIActivityIndicatorView
+    @IBOutlet weak var loader: UIActivityIndicatorView!
+    var myurl = ""
+    var isshow:Bool = false
+    var timerLoadData = Timer()
     override func viewDidLoad() {
         super.viewDidLoad()
+       
+        myWebView.navigationDelegate = self
+        loader.startAnimating()
+        
+        guard let url = URL(string:FunctionViewController.weburl) else {
+            return
+        }
+      
+            let request = URLRequest(url: url)
+            self.myWebView.load(request)
+            self.loader.stopAnimating()
 
-        // Do any additional setup after loading the view.
+       
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
+  
 }

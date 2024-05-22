@@ -446,8 +446,6 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     }
 
     
-    
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         loader.startAnimating()
         self.loader.isHidden = false
@@ -492,6 +490,19 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
                }
                task.resume()
     }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let favorite = UIContextualAction(style: .normal, title: "Favorite") { (action, view, completion) in
+            // Handle favorite action here
+            completion(true)
+        }
+        favorite.backgroundColor = UIColor.systemYellow
+        
+        let configuration = UISwipeActionsConfiguration(actions: [favorite])
+        return configuration
+    }
+
+    
     
     
     

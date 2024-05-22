@@ -16,7 +16,6 @@
 		9D2CD1BC2BEA7DF100FB2B53 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2CD1BA2BEA7DF100FB2B53 /* Todo.swift */; };
 		9D2CD1BE2BEA7E1B00FB2B53 /* TodoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2CD1BD2BEA7E1B00FB2B53 /* TodoViewModel.swift */; };
 		9D2CD1C02BEA7E2A00FB2B53 /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2CD1BF2BEA7E2A00FB2B53 /* DateFormatter+Extensions.swift */; };
-		9D2CD1C22BEA838200FB2B53 /* FunctionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2CD1C12BEA838200FB2B53 /* FunctionViewController.swift */; };
 		9D2CD1C62BEA927500FB2B53 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2CD1C52BEA927500FB2B53 /* ChatViewController.swift */; };
 		9D2CF2312BF50BE200C10BF1 /* MyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2CF2302BF50BE200C10BF1 /* MyTableViewCell.swift */; };
 		9D2CF2332BF50BE700C10BF1 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2CF2322BF50BE700C10BF1 /* MainTableViewCell.swift */; };
@@ -37,6 +36,7 @@
 		9DB22D4E2BF518F400BFEE08 /* locationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB22D4D2BF518F400BFEE08 /* locationViewController.swift */; };
 		9DB22D512BF5203900BFEE08 /* RestaurantViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB22D502BF5203900BFEE08 /* RestaurantViewController.swift */; };
 		9DB22D542BF544C400BFEE08 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB22D532BF544C400BFEE08 /* MapViewController.swift */; };
+		9DDBC66D2BFE40EC008C7BC9 /* FunctionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDBC66C2BFE40EC008C7BC9 /* FunctionsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,7 +49,6 @@
 		9D2CD1BA2BEA7DF100FB2B53 /* Todo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
 		9D2CD1BD2BEA7E1B00FB2B53 /* TodoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoViewModel.swift; sourceTree = "<group>"; };
 		9D2CD1BF2BEA7E2A00FB2B53 /* DateFormatter+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extensions.swift"; sourceTree = "<group>"; };
-		9D2CD1C12BEA838200FB2B53 /* FunctionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionViewController.swift; sourceTree = "<group>"; };
 		9D2CD1C52BEA927500FB2B53 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		9D2CF2302BF50BE200C10BF1 /* MyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyTableViewCell.swift; sourceTree = "<group>"; };
 		9D2CF2322BF50BE700C10BF1 /* MainTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
@@ -72,6 +71,7 @@
 		9DB22D4D2BF518F400BFEE08 /* locationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = locationViewController.swift; sourceTree = "<group>"; };
 		9DB22D502BF5203900BFEE08 /* RestaurantViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantViewController.swift; sourceTree = "<group>"; };
 		9DB22D532BF544C400BFEE08 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		9DDBC66C2BFE40EC008C7BC9 /* FunctionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionsViewController.swift; sourceTree = "<group>"; };
 		A8DD399836785A9E251288EA /* Pods-SmartTravelApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartTravelApp.release.xcconfig"; path = "Target Support Files/Pods-SmartTravelApp/Pods-SmartTravelApp.release.xcconfig"; sourceTree = "<group>"; };
 		BBC921C354E23407E08DA21E /* Pods_SmartTravelApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartTravelApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -149,7 +149,6 @@
 				9D3C93EB2BE2AC3C00649B37 /* SceneDelegate.swift */,
 				9D3C93ED2BE2AC3C00649B37 /* ViewController.swift */,
 				9D2CD1502BEA7C6000FB2B53 /* CalendarViewController.swift */,
-				9D2CD1C12BEA838200FB2B53 /* FunctionViewController.swift */,
 				9D2CD1BF2BEA7E2A00FB2B53 /* DateFormatter+Extensions.swift */,
 				9D2CD14E2BEA7C5900FB2B53 /* AddTaskViewController.swift */,
 				9D3C93EF2BE2AC3C00649B37 /* Main.storyboard */,
@@ -160,6 +159,7 @@
 				9D3C93F22BE2AC3C00649B37 /* SmartTravelApp.xcdatamodeld */,
 				9D2CD1C52BEA927500FB2B53 /* ChatViewController.swift */,
 				9D7511B62BFD215F003D7703 /* APIViewController.swift */,
+				9DDBC66C2BFE40EC008C7BC9 /* FunctionsViewController.swift */,
 			);
 			path = SmartTravelApp;
 			sourceTree = "<group>";
@@ -333,12 +333,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9DDBC66D2BFE40EC008C7BC9 /* FunctionsViewController.swift in Sources */,
 				9D2CD1BE2BEA7E1B00FB2B53 /* TodoViewModel.swift in Sources */,
 				9D2CD1BC2BEA7DF100FB2B53 /* Todo.swift in Sources */,
 				9D2CD1512BEA7C6000FB2B53 /* CalendarViewController.swift in Sources */,
 				9D7511B72BFD215F003D7703 /* APIViewController.swift in Sources */,
 				9D3C94032BE2ACDC00649B37 /* SliderCollectionViewCell.swift in Sources */,
-				9D2CD1C22BEA838200FB2B53 /* FunctionViewController.swift in Sources */,
 				9D2CF2372BF50BFE00C10BF1 /* WeatherViewController.swift in Sources */,
 				9D3C94062BE2AD7C00649B37 /* RoundCircleClass.swift in Sources */,
 				9D2CF2332BF50BE700C10BF1 /* MainTableViewCell.swift in Sources */,

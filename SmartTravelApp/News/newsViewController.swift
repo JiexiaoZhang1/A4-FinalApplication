@@ -1,6 +1,7 @@
 
 
 import UIKit
+import SafariServices
 
 class newsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -60,8 +61,18 @@ class newsViewController: UIViewController, UITableViewDelegate, UITableViewData
         print(article.url)
         
         // Perform segue to another view controller or handle the URL as needed
-        FunctionViewController.weburl = article.url
-        self.performSegue(withIdentifier: "showmewsweb", sender: true)
+       FunctionViewController.weburl = article.url
+        //self.performSegue(withIdentifier: "showweb", sender: true)
+        
+        guard let url = URL(string: FunctionViewController.weburl) else {
+                   return
+               }
+        // Load the writeReviewURL in the WKWebView
+        let safariVC = SFSafariViewController(url: url)
+        self.present(safariVC, animated: true, completion: {
+            self.loader.stopAnimating()
+            self.loader.isHidden = true
+        })
     }
     
     // MARK: - News Data

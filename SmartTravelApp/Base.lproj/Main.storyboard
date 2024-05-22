@@ -834,11 +834,11 @@
                         <outlet property="pageView" destination="TnV-m7-QgN" id="vUF-nT-1bA"/>
                         <outlet property="sliderCollectionView" destination="Kuc-ny-Z5e" id="20t-jq-U4B"/>
                         <outlet property="theTable" destination="cTA-e2-4aX" id="Z5c-cc-nf4"/>
-                        <segue destination="ogZ-TY-qHu" kind="show" identifier="showweb" id="18f-pY-Qv5"/>
                         <segue destination="lvd-QQ-qzY" kind="show" identifier="showWeather" id="uef-MD-hbn"/>
                         <segue destination="eyd-HY-v31" kind="show" identifier="shownews" id="jER-LA-NfA"/>
                         <segue destination="kVX-Ld-5BP" kind="show" id="ica-cw-vOK"/>
                         <segue destination="zoM-Ql-puH" kind="show" identifier="showapiview" id="L2p-C8-kZi"/>
+                        <segue destination="ezr-eD-06D" kind="show" identifier="showweb" id="qty-e1-9tN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="v6Z-pv-cQI" sceneMemberID="firstResponder"/>
@@ -846,46 +846,44 @@
             <point key="canvasLocation" x="1613" y="-527"/>
         </scene>
         <!--Function View Controller-->
-        <scene sceneID="yZK-N6-5tT">
+        <scene sceneID="J8t-kE-Aa2">
             <objects>
-                <viewController id="ogZ-TY-qHu" customClass="FunctionViewController" customModule="SmartTravelApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="FQ0-rO-yaV">
+                <viewController id="ezr-eD-06D" customClass="FunctionViewController" customModule="SmartTravelApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="TwS-G1-G1F">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wlN-N1-NUE">
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LAG-75-dJe">
                                 <rect key="frame" x="0.0" y="103" width="393" height="666"/>
-                                <subviews>
-                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="UTT-5B-TzQ">
-                                        <rect key="frame" x="186.66666666666666" y="323" width="20" height="20"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </activityIndicatorView>
-                                </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstItem="UTT-5B-TzQ" firstAttribute="centerY" secondItem="wlN-N1-NUE" secondAttribute="centerY" id="E3F-dq-OAr"/>
-                                    <constraint firstItem="UTT-5B-TzQ" firstAttribute="centerX" secondItem="wlN-N1-NUE" secondAttribute="centerX" id="JZv-uS-bFe"/>
-                                </constraints>
-                            </view>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="QaK-9A-Gjh">
+                                <rect key="frame" x="186" y="390" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="ehP-l0-qPL"/>
-                        <color key="backgroundColor" red="0.94509803920000002" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <viewLayoutGuide key="safeArea" id="hEf-cm-0t9"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="wlN-N1-NUE" firstAttribute="top" secondItem="ehP-l0-qPL" secondAttribute="top" id="CvZ-N5-BOA"/>
-                            <constraint firstItem="ehP-l0-qPL" firstAttribute="trailing" secondItem="wlN-N1-NUE" secondAttribute="trailing" id="NAx-NJ-Kt2"/>
-                            <constraint firstItem="wlN-N1-NUE" firstAttribute="leading" secondItem="ehP-l0-qPL" secondAttribute="leading" id="aJD-bG-n8l"/>
-                            <constraint firstItem="ehP-l0-qPL" firstAttribute="bottom" secondItem="wlN-N1-NUE" secondAttribute="bottom" id="h1f-5y-1FL"/>
+                            <constraint firstItem="hEf-cm-0t9" firstAttribute="trailing" secondItem="LAG-75-dJe" secondAttribute="trailing" id="Yxm-Ub-LXa"/>
+                            <constraint firstItem="LAG-75-dJe" firstAttribute="leading" secondItem="hEf-cm-0t9" secondAttribute="leading" id="hhE-J9-qG4"/>
+                            <constraint firstItem="LAG-75-dJe" firstAttribute="top" secondItem="hEf-cm-0t9" secondAttribute="top" id="kzS-7q-iDt"/>
+                            <constraint firstItem="hEf-cm-0t9" firstAttribute="bottom" secondItem="LAG-75-dJe" secondAttribute="bottom" id="zh0-4T-ffd"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="RjE-VB-r8u"/>
+                    <navigationItem key="navigationItem" id="PqO-o4-1qd"/>
                     <connections>
-                        <outlet property="loader" destination="UTT-5B-TzQ" id="la4-BK-VRp"/>
+                        <outlet property="loader" destination="QaK-9A-Gjh" id="3sV-iB-9Bt"/>
+                        <outlet property="myWebView" destination="LAG-75-dJe" id="HD3-bJ-sTq"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="lkH-Y2-bGY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Kwg-az-Kyq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2683" y="-226"/>
+            <point key="canvasLocation" x="2777" y="-372"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="lMw-sS-JWR">
@@ -1339,7 +1337,7 @@
                     <connections>
                         <outlet property="loader" destination="zCS-48-Cy0" id="iHG-RW-UR0"/>
                         <outlet property="theTable" destination="PeR-u4-uOa" id="r8a-VX-xp1"/>
-                        <segue destination="ogZ-TY-qHu" kind="show" identifier="showmewsweb" id="EYP-uC-Plq"/>
+                        <segue destination="ezr-eD-06D" kind="show" identifier="showweb" id="2iJ-3M-f5R"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1yz-QV-KxJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -2553,7 +2551,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="18f-pY-Qv5"/>
+        <segue reference="2iJ-3M-f5R"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="alarm" catalog="system" width="123" height="128"/>
