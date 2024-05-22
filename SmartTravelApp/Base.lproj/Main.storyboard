@@ -834,7 +834,7 @@
                         <outlet property="pageView" destination="TnV-m7-QgN" id="vUF-nT-1bA"/>
                         <outlet property="sliderCollectionView" destination="Kuc-ny-Z5e" id="20t-jq-U4B"/>
                         <outlet property="theTable" destination="cTA-e2-4aX" id="Z5c-cc-nf4"/>
-                        <segue destination="ogZ-TY-qHu" kind="show" identifier="showFunction" id="18f-pY-Qv5"/>
+                        <segue destination="ogZ-TY-qHu" kind="show" identifier="showweb" id="18f-pY-Qv5"/>
                         <segue destination="lvd-QQ-qzY" kind="show" identifier="showWeather" id="uef-MD-hbn"/>
                         <segue destination="eyd-HY-v31" kind="show" identifier="shownews" id="jER-LA-NfA"/>
                         <segue destination="kVX-Ld-5BP" kind="show" id="ica-cw-vOK"/>
@@ -856,14 +856,6 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wlN-N1-NUE">
                                 <rect key="frame" x="0.0" y="103" width="393" height="666"/>
                                 <subviews>
-                                    <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hY1-Yu-MvV">
-                                        <rect key="frame" x="0.0" y="0.0" width="393" height="666"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <wkWebViewConfiguration key="configuration">
-                                            <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
-                                            <wkPreferences key="preferences"/>
-                                        </wkWebViewConfiguration>
-                                    </wkWebView>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="UTT-5B-TzQ">
                                         <rect key="frame" x="186.66666666666666" y="323" width="20" height="20"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -874,10 +866,6 @@
                                 <constraints>
                                     <constraint firstItem="UTT-5B-TzQ" firstAttribute="centerY" secondItem="wlN-N1-NUE" secondAttribute="centerY" id="E3F-dq-OAr"/>
                                     <constraint firstItem="UTT-5B-TzQ" firstAttribute="centerX" secondItem="wlN-N1-NUE" secondAttribute="centerX" id="JZv-uS-bFe"/>
-                                    <constraint firstAttribute="trailing" secondItem="hY1-Yu-MvV" secondAttribute="trailing" id="PcY-kO-iVd"/>
-                                    <constraint firstItem="hY1-Yu-MvV" firstAttribute="top" secondItem="wlN-N1-NUE" secondAttribute="top" id="V50-JT-7Gf"/>
-                                    <constraint firstAttribute="bottom" secondItem="hY1-Yu-MvV" secondAttribute="bottom" id="Wba-5r-YRF"/>
-                                    <constraint firstItem="hY1-Yu-MvV" firstAttribute="leading" secondItem="wlN-N1-NUE" secondAttribute="leading" id="poC-Wj-nEc"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -893,12 +881,11 @@
                     <navigationItem key="navigationItem" id="RjE-VB-r8u"/>
                     <connections>
                         <outlet property="loader" destination="UTT-5B-TzQ" id="la4-BK-VRp"/>
-                        <outlet property="myWebView" destination="hY1-Yu-MvV" id="fPf-eV-fLu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lkH-Y2-bGY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3611" y="-375"/>
+            <point key="canvasLocation" x="2683" y="-226"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="lMw-sS-JWR">
@@ -2593,10 +2580,10 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemBlueColor">
-            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray3Color">
-            <color red="0.78039215689999997" green="0.78039215689999997" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.7803921568627451" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

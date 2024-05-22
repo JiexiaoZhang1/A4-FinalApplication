@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreLocation
+import SafariServices
 
 class APIViewController: UIViewController,UITableViewDelegate,UITableViewDataSource, CLLocationManagerDelegate {
     @IBOutlet weak var loader: UIActivityIndicatorView!
@@ -252,6 +253,53 @@ class APIViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
 
             task.resume()
         }
+    }
+    
+    var weburl:String = ""
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+        loader.startAnimating()
+        self.loader.isHidden = false
+        loaddata(urls: "https://api.content.tripadvisor.com/api/v1/location/\(location_id[indexPath.row])/details?key=FC2484B01C6841F7974B9ECDF8967443")
+    }
+   
+    func loaddata(urls:String){
+        guard let url = URL(string: urls) else {
+                   return
+               }
+
+               let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+                   if let error = error {
+                       print("Error: \(error.localizedDescription)")
+                       return
+                   }
+
+                   if let data = data {
+                       do {
+                           let json = try JSONSerialization.jsonObject(with: data, options: [])
+                           if let dictionary = json as? [String: Any] {
+                               DispatchQueue.main.async {
+                                   if let writeReviewURL = dictionary["web_url"] as? String {
+                                       print(writeReviewURL)
+                                       self.weburl = writeReviewURL
+                                       guard let url = URL(string: self.weburl) else {
+                                                  return
+                                              }
+                                       // Load the writeReviewURL in the WKWebView
+                                       let safariVC = SFSafariViewController(url: url)
+                                       self.present(safariVC, animated: true, completion: {
+                                           self.loader.stopAnimating()
+                                           self.loader.isHidden = true
+                                       })
+                                   }
+                               }
+                           }
+                       } catch {
+                           print("Error decoding JSON: \(error.localizedDescription)")
+                       }
+                   }
+               }
+               task.resume()
     }
     
   

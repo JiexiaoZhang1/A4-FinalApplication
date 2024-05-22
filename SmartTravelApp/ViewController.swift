@@ -1,4 +1,5 @@
 import UIKit
+import SafariServices
 import CoreLocation
 import AVFoundation
 import Foundation
@@ -29,6 +30,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     var myposition:String = "-37.9105126,145.1344988"
     var timerLoadData = Timer()
     let locationManager = CLLocationManager()
+    var weburl:String = ""
     
     /// Called after the controller's view is loaded into memory.
     override func viewDidLoad() {
@@ -130,7 +132,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         if imageurl.count == name.count && imageurl.count != 0 && name.count != 0
             &&  imageurl.first != "1"
         {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { // 延迟1秒
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 [self] in
                 theTable.reloadData()
                 loader.isHidden = true
@@ -139,7 +141,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             }
             timerLoadData.invalidate()
         }else{
-            //print("not")
+           
         }
        
     }
@@ -446,7 +448,50 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     
     
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        loader.startAnimating()
+        self.loader.isHidden = false
+        loaddata(urls: "https://api.content.tripadvisor.com/api/v1/location/\(location_id[indexPath.row])/details?key=FC2484B01C6841F7974B9ECDF8967443")
+    }
+   
+    func loaddata(urls:String){
+        guard let url = URL(string: urls) else {
+                   return
+               }
 
+               let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+                   if let error = error {
+                       print("Error: \(error.localizedDescription)")
+                       return
+                   }
+
+                   if let data = data {
+                       do {
+                           let json = try JSONSerialization.jsonObject(with: data, options: [])
+                           if let dictionary = json as? [String: Any] {
+                               DispatchQueue.main.async {
+                                   if let writeReviewURL = dictionary["web_url"] as? String {
+                                       print(writeReviewURL)
+                                       self.weburl = writeReviewURL
+                                       guard let url = URL(string: self.weburl) else {
+                                                  return
+                                              }
+                                       // Load the writeReviewURL in the WKWebView
+                                       let safariVC = SFSafariViewController(url: url)
+                                       self.present(safariVC, animated: true, completion: {
+                                           self.loader.stopAnimating()
+                                           self.loader.isHidden = true
+                                       })
+                                   }
+                               }
+                           }
+                       } catch {
+                           print("Error decoding JSON: \(error.localizedDescription)")
+                       }
+                   }
+               }
+               task.resume()
+    }
     
     
     
