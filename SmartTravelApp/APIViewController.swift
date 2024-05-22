@@ -396,6 +396,54 @@ extension APIViewController {
         }
     }
 
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        // Get the title of the current row
+        let title = name[indexPath.row]
+        
+        // Retrieve the saved titles from UserDefaults
+        let savedTitles = UserDefaults.standard.array(forKey: "SavedTitles") as? [String] ?? []
+        
+        // Check if the current title is already saved
+        let isTitleSaved = savedTitles.contains(title)
+        
+        // Create a "Favorite" or "Remove" action based on the saved status
+        let action = UIContextualAction(style: .destructive, title: isTitleSaved ? "Remove" : "Favorite") { (action, view, completion) in
+            // If the title is saved, remove it from the array and save it in UserDefaults
+            if isTitleSaved {
+                var updatedTitles = savedTitles
+                updatedTitles.removeAll(where: { $0 == title })
+                UserDefaults.standard.set(updatedTitles, forKey: "SavedTitles")
+                
+                // Show an alert to indicate successful removal
+                let alertController = UIAlertController(title: "Success", message: "The item has been removed successfully.", preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alertController, animated: true, completion: nil)
+            } else {
+                // Add the title to the array and save it in UserDefaults
+                var updatedTitles = savedTitles
+                updatedTitles.append(title)
+                UserDefaults.standard.set(updatedTitles, forKey: "SavedTitles")
+                
+                // Show an alert to indicate successful save
+                let alertController = UIAlertController(title: "Success", message: "The item has been saved successfully.", preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alertController, animated: true, completion: nil)
+            }
+            
+            // Indicate that the action was completed successfully
+            completion(true)
+        }
+        
+        // Set the background color of the action based on the saved status
+        action.backgroundColor = isTitleSaved ? UIColor.systemRed : UIColor.systemYellow
+        
+        // Set the image of the action based on the saved status
+        action.image = isTitleSaved ? UIImage(systemName: "trash") : UIImage(systemName: "star")
+        
+        // Create a swipe actions configuration with the "Favorite" or "Remove" action
+        let configuration = UISwipeActionsConfiguration(actions: [action])
+        return configuration
+    }
     
     
 
