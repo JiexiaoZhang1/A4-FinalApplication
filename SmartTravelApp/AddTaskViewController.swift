@@ -10,6 +10,7 @@ class AddTaskViewController: UIViewController {
     
     // MARK: - IBOutlets
     
+    @IBOutlet weak var txtfavoriterestaurant: UITextField!
     @IBOutlet weak var txtTitle: UITextField!
     @IBOutlet weak var txtDate: UITextField!
     @IBOutlet weak var txtTime: UITextField!
@@ -29,7 +30,7 @@ class AddTaskViewController: UIViewController {
     var currentDate: Date?
     
     var disposeBag = DisposeBag()
-    
+    var selctedFavoriteditem:String = ""
     // MARK: - View Lifecycle
     
     override func viewDidLoad() {
@@ -43,7 +44,36 @@ class AddTaskViewController: UIViewController {
         
         // Title Focus
         txtTitle.becomeFirstResponder()
+       // txtfavoriterestaurant.isEnabled = false
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture))
+            txtfavoriterestaurant.addGestureRecognizer(tapGesture)
     }
+    
+    @objc func handleTapGesture() {
+        // Get the stored data from UserDefaults
+        let savedTitles = UserDefaults.standard.array(forKey: "SavedTitles") as? [String] ?? []
+        
+        // Create the alert controller
+        let alertController = UIAlertController(title: "Favorited Restaurant", message: nil, preferredStyle: .alert)
+        
+        // Add each title as an action to the alert controller
+        for title in savedTitles {
+            let action = UIAlertAction(title: title, style: .default) { [self] _ in
+                // Update the text field with the selected title
+                self.txtfavoriterestaurant.text = title
+                selctedFavoriteditem = title
+            }
+            alertController.addAction(action)
+        }
+        
+        // Add a cancel action to the alert controller
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        // Present the alert controller
+        present(alertController, animated: true, completion: nil)
+    }
+
     
     override func viewWillAppear(_ animated: Bool) {
         guard let task = editTask else {
@@ -157,6 +187,10 @@ class AddTaskViewController: UIViewController {
         timetxt = timetxt.replacingOccurrences(of: "\\s+(\\d{2}(:\\d{2})?)$", with: "$1", options: .regularExpression)
 
         print(timetxt)
+        if self.txtfavoriterestaurant.text != ""{
+            txtDescription.text = txtDescription.text! + "[\(selctedFavoriteditem)]"
+        }
+      
         let todoObject = Todo(title: txtTitle.text!, date: txtDate.text!, time: timetxt, description: txtDescription.text)
         todoObject.saveToUserDefaults()
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshHome"), object: nil, userInfo: nil)

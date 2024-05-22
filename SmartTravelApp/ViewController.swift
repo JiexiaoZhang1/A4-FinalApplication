@@ -492,15 +492,33 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let title = name[indexPath.row]
+        let savedTitles = UserDefaults.standard.array(forKey: "SavedTitles") as? [String] ?? []
+        let isTitleSaved = savedTitles.contains(title)
+        
         let favorite = UIContextualAction(style: .normal, title: "Favorite") { (action, view, completion) in
-            // Handle favorite action here
+            if !isTitleSaved {
+                // Add the title to the array and save it in UserDefaults
+                var updatedTitles = savedTitles
+                updatedTitles.append(title)
+                UserDefaults.standard.set(updatedTitles, forKey: "SavedTitles")
+                
+                // Show an alert to indicate successful save
+                let alertController = UIAlertController(title: "Success", message: "The item has been saved successfully.", preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alertController, animated: true, completion: nil)
+            }
+            
             completion(true)
         }
+        
         favorite.backgroundColor = UIColor.systemYellow
         
         let configuration = UISwipeActionsConfiguration(actions: [favorite])
         return configuration
     }
+
+
 
     
     
