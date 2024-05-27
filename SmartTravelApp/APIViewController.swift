@@ -258,9 +258,12 @@ class APIViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
     var weburl:String = ""
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-        loader.startAnimating()
+       /* loader.startAnimating()
         self.loader.isHidden = false
-        loaddata(urls: "https://api.content.tripadvisor.com/api/v1/location/\(location_id[indexPath.row])/details?key=FC2484B01C6841F7974B9ECDF8967443")
+        loaddata(urls: "https://api.content.tripadvisor.com/api/v1/location/\(location_id[indexPath.row])/details?key=FC2484B01C6841F7974B9ECDF8967443")*/
+        DetailViewController.myimage = imageurl[indexPath.row]
+        DetailViewController.mylocationid = location_id[indexPath.row]
+        self.performSegue(withIdentifier: "showWeb2", sender: true)
     }
    
     func loaddata(urls:String){
