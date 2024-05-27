@@ -16,7 +16,7 @@ class ChatViewController: UIViewController {
         myWebView.navigationDelegate = self
     
         // Check if the URL is valid and load it in the web view
-        if let url = URL(string: "https://neostempprojects.com") {
+        if let url = URL(string: "http://neostempprojects.com") {
             let request = URLRequest(url: url)
             myWebView.load(request)
         }
