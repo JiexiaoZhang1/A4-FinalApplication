@@ -32,6 +32,7 @@
 		9D3C94042BE2ACDC00649B37 /* SliderCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D3C94012BE2ACDC00649B37 /* SliderCollectionViewCell.xib */; };
 		9D3C94062BE2AD7C00649B37 /* RoundCircleClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3C94052BE2AD7C00649B37 /* RoundCircleClass.swift */; };
 		9D7511B72BFD215F003D7703 /* APIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7511B62BFD215F003D7703 /* APIViewController.swift */; };
+		9D7DF87E2C04D210006B3005 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7DF87D2C04D210006B3005 /* DetailViewController.swift */; };
 		9DB22D4B2BF512E400BFEE08 /* newsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB22D4A2BF512E400BFEE08 /* newsViewController.swift */; };
 		9DB22D4E2BF518F400BFEE08 /* locationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB22D4D2BF518F400BFEE08 /* locationViewController.swift */; };
 		9DB22D512BF5203900BFEE08 /* RestaurantViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB22D502BF5203900BFEE08 /* RestaurantViewController.swift */; };
@@ -67,6 +68,7 @@
 		9D3C94012BE2ACDC00649B37 /* SliderCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SliderCollectionViewCell.xib; sourceTree = "<group>"; };
 		9D3C94052BE2AD7C00649B37 /* RoundCircleClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundCircleClass.swift; sourceTree = "<group>"; };
 		9D7511B62BFD215F003D7703 /* APIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIViewController.swift; sourceTree = "<group>"; };
+		9D7DF87D2C04D210006B3005 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		9DB22D4A2BF512E400BFEE08 /* newsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newsViewController.swift; sourceTree = "<group>"; };
 		9DB22D4D2BF518F400BFEE08 /* locationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = locationViewController.swift; sourceTree = "<group>"; };
 		9DB22D502BF5203900BFEE08 /* RestaurantViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantViewController.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				9D2CD1C52BEA927500FB2B53 /* ChatViewController.swift */,
 				9D7511B62BFD215F003D7703 /* APIViewController.swift */,
 				9DDBC66C2BFE40EC008C7BC9 /* FunctionsViewController.swift */,
+				9D7DF87D2C04D210006B3005 /* DetailViewController.swift */,
 			);
 			path = SmartTravelApp;
 			sourceTree = "<group>";
@@ -335,6 +338,7 @@
 			files = (
 				9DDBC66D2BFE40EC008C7BC9 /* FunctionsViewController.swift in Sources */,
 				9D2CD1BE2BEA7E1B00FB2B53 /* TodoViewModel.swift in Sources */,
+				9D7DF87E2C04D210006B3005 /* DetailViewController.swift in Sources */,
 				9D2CD1BC2BEA7DF100FB2B53 /* Todo.swift in Sources */,
 				9D2CD1512BEA7C6000FB2B53 /* CalendarViewController.swift in Sources */,
 				9D7511B72BFD215F003D7703 /* APIViewController.swift in Sources */,
