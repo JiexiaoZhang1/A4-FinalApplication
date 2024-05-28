@@ -107,7 +107,25 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             handler(myposition)
         }
     }
+       
+    @IBAction func userTapped(_ sender: Any) {
+        let alertController = UIAlertController(title: title, message: "Your username is \(loginViewController.myname)", preferredStyle: .alert)
         
+        // Add "Logout" button
+        let logoutAction = UIAlertAction(title: "Logout", style: .destructive) { _ in
+            // Add logout logic here
+            self.dismiss(animated: true, completion: nil)
+            print("User selected Logout")
+        }
+        alertController.addAction(logoutAction)
+        
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    
         func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
             print("Error getting location: \(error.localizedDescription)")
             if self.hasLoadedData {
