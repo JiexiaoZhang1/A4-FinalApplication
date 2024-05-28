@@ -35,6 +35,12 @@
 		9D7DF87E2C04D210006B3005 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7DF87D2C04D210006B3005 /* DetailViewController.swift */; };
 		9D7DF8802C04F95E006B3005 /* favoritemanageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7DF87F2C04F95E006B3005 /* favoritemanageTableViewCell.swift */; };
 		9D7DF8822C04F9C1006B3005 /* favoritemanageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7DF8812C04F9C1006B3005 /* favoritemanageViewController.swift */; };
+		9D9A2C552C05CC0A00A1FFB4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9D9A2C542C05CC0A00A1FFB4 /* GoogleService-Info.plist */; };
+		9D9A2C582C05CF3500A1FFB4 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 9D9A2C572C05CF3500A1FFB4 /* FirebaseAnalytics */; };
+		9D9A2C5A2C05CF3500A1FFB4 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 9D9A2C592C05CF3500A1FFB4 /* FirebaseAnalyticsOnDeviceConversion */; };
+		9D9A2C5C2C05CF3500A1FFB4 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9D9A2C5B2C05CF3500A1FFB4 /* FirebaseAnalyticsSwift */; };
+		9D9A2C5E2C05CF3500A1FFB4 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 9D9A2C5D2C05CF3500A1FFB4 /* FirebaseAnalyticsWithoutAdIdSupport */; };
+		9D9A2C602C05CF3500A1FFB4 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 9D9A2C5F2C05CF3500A1FFB4 /* FirebaseAppCheck */; };
 		9DB22D4B2BF512E400BFEE08 /* newsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB22D4A2BF512E400BFEE08 /* newsViewController.swift */; };
 		9DB22D4E2BF518F400BFEE08 /* locationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB22D4D2BF518F400BFEE08 /* locationViewController.swift */; };
 		9DB22D512BF5203900BFEE08 /* RestaurantViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB22D502BF5203900BFEE08 /* RestaurantViewController.swift */; };
@@ -73,6 +79,7 @@
 		9D7DF87D2C04D210006B3005 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		9D7DF87F2C04F95E006B3005 /* favoritemanageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = favoritemanageTableViewCell.swift; sourceTree = "<group>"; };
 		9D7DF8812C04F9C1006B3005 /* favoritemanageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = favoritemanageViewController.swift; sourceTree = "<group>"; };
+		9D9A2C542C05CC0A00A1FFB4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9DB22D4A2BF512E400BFEE08 /* newsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newsViewController.swift; sourceTree = "<group>"; };
 		9DB22D4D2BF518F400BFEE08 /* locationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = locationViewController.swift; sourceTree = "<group>"; };
 		9DB22D502BF5203900BFEE08 /* RestaurantViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantViewController.swift; sourceTree = "<group>"; };
@@ -87,6 +94,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D9A2C5C2C05CF3500A1FFB4 /* FirebaseAnalyticsSwift in Frameworks */,
+				9D9A2C5E2C05CF3500A1FFB4 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
+				9D9A2C582C05CF3500A1FFB4 /* FirebaseAnalytics in Frameworks */,
+				9D9A2C5A2C05CF3500A1FFB4 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
+				9D9A2C602C05CF3500A1FFB4 /* FirebaseAppCheck in Frameworks */,
 				7D94B59FF60DCD17FC5E38B6 /* Pods_SmartTravelApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -166,6 +178,7 @@
 				9D2CD1C52BEA927500FB2B53 /* ChatViewController.swift */,
 				9D7511B62BFD215F003D7703 /* APIViewController.swift */,
 				9DDBC66C2BFE40EC008C7BC9 /* FunctionsViewController.swift */,
+				9D9A2C542C05CC0A00A1FFB4 /* GoogleService-Info.plist */,
 				9D7DF87D2C04D210006B3005 /* DetailViewController.swift */,
 				9D7DF8812C04F9C1006B3005 /* favoritemanageViewController.swift */,
 			);
@@ -243,6 +256,13 @@
 			dependencies = (
 			);
 			name = SmartTravelApp;
+			packageProductDependencies = (
+				9D9A2C572C05CF3500A1FFB4 /* FirebaseAnalytics */,
+				9D9A2C592C05CF3500A1FFB4 /* FirebaseAnalyticsOnDeviceConversion */,
+				9D9A2C5B2C05CF3500A1FFB4 /* FirebaseAnalyticsSwift */,
+				9D9A2C5D2C05CF3500A1FFB4 /* FirebaseAnalyticsWithoutAdIdSupport */,
+				9D9A2C5F2C05CF3500A1FFB4 /* FirebaseAppCheck */,
+			);
 			productName = SmartTravelApp;
 			productReference = 9D3C93E62BE2AC3C00649B37 /* SmartTravelApp.app */;
 			productType = "com.apple.product-type.application";
@@ -271,6 +291,9 @@
 				Base,
 			);
 			mainGroup = 9D3C93DD2BE2AC3C00649B37;
+			packageReferences = (
+				9D9A2C562C05CF3500A1FFB4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 9D3C93E72BE2AC3C00649B37 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -290,6 +313,7 @@
 				9D2CD1972BEA7C8700FB2B53 /* TodoTableViewCell.xib in Resources */,
 				9D3C93F12BE2AC3C00649B37 /* Base in Resources */,
 				9D3C94042BE2ACDC00649B37 /* SliderCollectionViewCell.xib in Resources */,
+				9D9A2C552C05CC0A00A1FFB4 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -609,6 +633,45 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9D9A2C562C05CF3500A1FFB4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.26.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9D9A2C572C05CF3500A1FFB4 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9D9A2C562C05CF3500A1FFB4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		9D9A2C592C05CF3500A1FFB4 /* FirebaseAnalyticsOnDeviceConversion */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9D9A2C562C05CF3500A1FFB4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsOnDeviceConversion;
+		};
+		9D9A2C5B2C05CF3500A1FFB4 /* FirebaseAnalyticsSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9D9A2C562C05CF3500A1FFB4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsSwift;
+		};
+		9D9A2C5D2C05CF3500A1FFB4 /* FirebaseAnalyticsWithoutAdIdSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9D9A2C562C05CF3500A1FFB4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsWithoutAdIdSupport;
+		};
+		9D9A2C5F2C05CF3500A1FFB4 /* FirebaseAppCheck */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9D9A2C562C05CF3500A1FFB4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAppCheck;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		9D3C93F22BE2AC3C00649B37 /* SmartTravelApp.xcdatamodeld */ = {
