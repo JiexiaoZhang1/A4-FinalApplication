@@ -9,6 +9,7 @@ target 'SmartTravelApp' do
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'RxDataSources'
+  pod 'Firebase'
   
 
 end
