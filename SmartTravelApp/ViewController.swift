@@ -107,7 +107,25 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             handler(myposition)
         }
     }
+       
+    @IBAction func userTapped(_ sender: Any) {
+        let alertController = UIAlertController(title: title, message: "Your username is \(loginViewController.myname)", preferredStyle: .alert)
         
+        // Add "Logout" button
+        let logoutAction = UIAlertAction(title: "Logout", style: .destructive) { _ in
+            // Add logout logic here
+            self.dismiss(animated: true, completion: nil)
+            print("User selected Logout")
+        }
+        alertController.addAction(logoutAction)
+        
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    
         func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
             print("Error getting location: \(error.localizedDescription)")
             if self.hasLoadedData {
@@ -449,11 +467,17 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     // This method is called when a row in the table view is selected
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Start the activity indicator animation and make it visible
-        loader.startAnimating()
-        self.loader.isHidden = false
+      //  loader.startAnimating()
+      //  self.loader.isHidden = false
         
         // Call the loaddata function with the appropriate URL
-        loaddata(urls: "https://api.content.tripadvisor.com/api/v1/location/\(location_id[indexPath.row])/details?key=FC2484B01C6841F7974B9ECDF8967443")
+       // loaddata(urls: "https://api.content.tripadvisor.com/api/v1/location/\(location_id[indexPath.row])/details?key=FC2484B01C6841F7974B9ECDF8967443")
+        
+        DetailViewController.myimage = imageurl[indexPath.row]
+        DetailViewController.mylocationid = location_id[indexPath.row]
+        self.performSegue(withIdentifier: "showWeb", sender: true)
+        
+        
     }
 
     // This method fetches data from the specified URL

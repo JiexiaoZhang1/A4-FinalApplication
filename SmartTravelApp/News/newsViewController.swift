@@ -48,7 +48,7 @@ class newsViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         let article = newsArticles[indexPath.row]
         cell.textLabel?.text = article.title
-      //  cell.detailTextLabel?.text = "\(article.author) | \(article.publishedAt)"
+        cell.detailTextLabel?.text = "\(article.author ?? "Unknown") | \(article.publishedAt)"
         cell.accessoryType = .disclosureIndicator
         
         return cell
@@ -61,12 +61,11 @@ class newsViewController: UIViewController, UITableViewDelegate, UITableViewData
         print(article.url)
         
         // Perform segue to another view controller or handle the URL as needed
-       FunctionViewController.weburl = article.url
-        //self.performSegue(withIdentifier: "showweb", sender: true)
+        FunctionViewController.weburl = article.url
         
         guard let url = URL(string: FunctionViewController.weburl) else {
-                   return
-               }
+            return
+        }
         // Load the writeReviewURL in the WKWebView
         let safariVC = SFSafariViewController(url: url)
         self.present(safariVC, animated: true, completion: {
@@ -85,7 +84,7 @@ class newsViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     struct Article: Codable {
         let source: Source
-        let author: String
+        let author: String?
         let title: String
         let description: String?
         let url: String
