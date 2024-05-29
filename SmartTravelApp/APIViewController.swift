@@ -1,9 +1,3 @@
-//
-//  HotelsViewController.swift
-//  SmartTravelApp
-//
-//  Created by student on 22/5/2024.
-//
 
 import UIKit
 import CoreLocation
@@ -16,7 +10,7 @@ class APIViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
     var timer = Timer()  // Timer used to change images automatically at regular intervals.
     var counter = 0  // Counter to track the current index of displayed image in the slider.
     
-    var myposition:String = "-37.9105126,145.1344988"
+    var myposition:String = "-37.4853,144.5738"
     var timerLoadData = Timer()
     let locationManager = CLLocationManager()
     

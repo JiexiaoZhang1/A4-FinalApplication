@@ -27,7 +27,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     var registerPassword: String = ""  // Variable to store the registered password.
     
     
-    var myposition:String = "-37.9105126,145.1344988"
+    var myposition:String = "-37.4853,144.5738"
     var timerLoadData = Timer()
     let locationManager = CLLocationManager()
     var weburl:String = ""
