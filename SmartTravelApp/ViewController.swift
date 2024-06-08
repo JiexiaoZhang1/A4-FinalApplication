@@ -7,6 +7,7 @@ import Foundation
 /// A `UIViewController` that manages a collection view displaying a slider of images.
 class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource,UITableViewDelegate,UITableViewDataSource, CLLocationManagerDelegate {
     
+    @IBOutlet weak var thetableheight: NSLayoutConstraint!
     @IBOutlet weak var loader: UIActivityIndicatorView!
     @IBOutlet weak var theTable: UITableView!
  
@@ -155,7 +156,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
                 theTable.reloadData()
                 loader.isHidden = true
                 loader.stopAnimating()
-                
+                updateTableHeight()
             }
             timerLoadData.invalidate()
         }else{
@@ -391,7 +392,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
         // Dequeue a reusable cell and cast it to your custom cell class
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListEventTableViewCell", for: indexPath) as! ListEventTableViewCell
 
-        
+        cell.selectionStyle = .none
         cell.nameLabel.text = "Name: "  + name[indexPath.row]
 
         if let distanceInMeters = Double(distance[indexPath.row]) {
@@ -584,6 +585,17 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
         return configuration
     }
     
+    
+    override func viewDidLayoutSubviews() {
+           super.viewDidLayoutSubviews()
+        //   updateTableHeight()
+       }
+    
+    func updateTableHeight() {
+          var totalHeight: CGFloat = 0
+        totalHeight = CGFloat(location_id.count * 130)
+          thetableheight.constant = totalHeight
+      }
     
     
     

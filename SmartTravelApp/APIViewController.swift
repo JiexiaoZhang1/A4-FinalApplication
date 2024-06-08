@@ -1,3 +1,4 @@
+
 //
 //  HotelsViewController.swift
 //  SmartTravelApp
@@ -20,6 +21,7 @@ class APIViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
     var timerLoadData = Timer()
     let locationManager = CLLocationManager()
     
+    var timerLoadData1 = Timer()
     /// Called after the controller's view is loaded into memory.
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,9 +36,7 @@ class APIViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
         loader.startAnimating()
     
         self.timerLoadData = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(monitorData), userInfo: nil, repeats: true)
-       
-
-        
+ 
         self.getCurrentLocationAndLoadData()
 
         print("Current \(myposition)")
@@ -72,6 +72,33 @@ class APIViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
             self.a = position
         }
     }
+    
+    @IBAction func searchTapped(_ sender: Any) {
+        loader.startAnimating()
+        loader.isHidden = false
+        isFinishLoadInitialData = false
+        requestCount = 0
+        counter = 0
+        hasLoadedData = false
+        isFinishImage = false
+        
+        
+        if self.searchinputfield.text != ""{
+            self.timerLoadData1 = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(monitorsearchData), userInfo: nil, repeats: true)
+            self.location_id.removeAll()
+            self.name.removeAll()
+            self.distance.removeAll()
+            self.bearing.removeAll()
+            self.address_obj.removeAll()
+            self.imageurl.removeAll()
+            loadsearchdata(keyword: self.searchinputfield.text!)
+        }else{
+    
+        }
+        
+        
+    }
+    
     
     var locationCompletionHandler: ((String) -> Void)?
 
@@ -130,6 +157,44 @@ class APIViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
        
     }
     
+    @objc func monitorsearchData() {
+        print("hi")
+        print("--------------------")
+        print("--------------------")
+        print(self.location_id.description)
+        print(self.name.description)
+              print(self.distance.description)
+                    print(self.bearing.description)
+                          print(self.address_obj.description)
+        print("--------------------")
+        print("--------------------")
+        
+        
+        
+        if isFinishLoadInitialData{
+            requestCount = location_id.count
+            imageurl = Array(repeating: "1", count: location_id.count)
+            loadImageURLs()
+          
+        }
+  
+        if imageurl.count == name.count && imageurl.count != 0 && name.count != 0
+            &&  imageurl.first != "1"
+        {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                [self] in
+                theTable.reloadData()
+                loader.isHidden = true
+                loader.stopAnimating()
+                
+            }
+            timerLoadData1.invalidate()
+        }else{
+            //print("not")
+        }
+       
+    }
+    
     var location_id: [String] = []
     var name: [String] = []
     var distance: [String] = []
@@ -138,12 +203,10 @@ class APIViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
     var imageurl: [String] = []
     var completionCount = 0
     var totalCount = 0
+    @IBOutlet weak var searchinputfield: UITextField!
     var isFinishLoadInitialData:Bool = false
     func loaddata(position:String) {
        
-      
-        
-        
         isFinishLoadInitialData = false
         let url = URL(string: "https://api.content.tripadvisor.com/api/v1/location/nearby_search?latLong=\(position)&key=FC2484B01C6841F7974B9ECDF8967443&category=\(APIViewController.category)&language=en&radiusUnit=600")!
         var request = URLRequest(url: url)
@@ -152,16 +215,22 @@ class APIViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
         let task = URLSession.shared.dataTask(with: request) { [self] (data, response, error) in
             if let error = error {
                 print("Error: \(error.localizedDescription)")
+                loader.stopAnimating()
+                loader.isHidden = true
                 return
             }
 
             guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
                 print("Server responded with an error")
+                loader.stopAnimating()
+                loader.isHidden = true
                 return
             }
 
             guard let data = data else {
                 print("No data received")
+                loader.stopAnimating()
+                loader.isHidden = true
                 return
             }
 
@@ -186,6 +255,78 @@ class APIViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
                             }
                         }
                         isFinishLoadInitialData = true
+                    }
+                }
+            } catch {
+                print("Error decoding JSON: \(error.localizedDescription)")
+            }
+            
+            
+        }
+
+      
+        task.resume()
+    }
+    
+    
+    func loadsearchdata(keyword:String) {
+       
+        isFinishLoadInitialData = false
+        let url = URL(string: "https://api.content.tripadvisor.com/api/v1/location/search?searchQuery=\(keyword)&key=FC2484B01C6841F7974B9ECDF8967443&category=\(APIViewController.category)&language=en")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+
+        let task = URLSession.shared.dataTask(with: request) { [self] (data, response, error) in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+                loader.stopAnimating()
+                loader.isHidden = true
+                return
+            }
+
+            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                print("Server responded with an error")
+                loader.stopAnimating()
+                loader.isHidden = true
+                return
+            }
+
+            guard let data = data else {
+           
+                loader.stopAnimating()
+                loader.isHidden = true
+                return
+            }
+
+            do {
+          
+                let json = try JSONSerialization.jsonObject(with: data, options: [])
+                if let dictionary = json as? [String: Any] {
+                    if let dataArray = dictionary["data"] as? [[String: Any]] {
+                        totalCount = dataArray.count
+                        
+                        for item in dataArray {
+                          
+                            if let location_id = item["location_id"] as? String,
+                               let name = item["name"] as? String,
+                               
+            
+                               let address_obj = item["address_obj"] as? [String: String],
+                               let address_string = address_obj["address_string"] {
+                                
+                          
+                                self.location_id.append(location_id)
+                                self.name.append(name)
+                                self.distance.append("N/A")
+                                self.bearing.append("N/A")
+                                self.address_obj.append(address_string)
+                                //loadImageURL(locationid: location_id)
+                      
+                            }
+                        }
+                        isFinishLoadInitialData = true
+
+                       // print("done done....")
                     }
                 }
             } catch {
@@ -325,7 +466,7 @@ extension APIViewController {
         // Dequeue a reusable cell and cast it to your custom cell class
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListEventTableViewCell", for: indexPath) as! ListEventTableViewCell
 
-        
+        cell.selectionStyle = .none
         cell.nameLabel.text = "Name: "  + name[indexPath.row]
 
         if let distanceInMeters = Double(distance[indexPath.row]) {
@@ -447,6 +588,7 @@ extension APIViewController {
         let configuration = UISwipeActionsConfiguration(actions: [action])
         return configuration
     }
+    
     
     
 
