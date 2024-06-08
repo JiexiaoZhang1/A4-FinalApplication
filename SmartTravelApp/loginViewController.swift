@@ -45,13 +45,13 @@ class loginViewController: UIViewController {
         let db = Firestore.firestore()
         let accountsCollection = db.collection("accounts")
 
-        // 查询指定用户名和密码的账号记录
+   
         accountsCollection.whereField("username", isEqualTo: username).whereField("password", isEqualTo: password).getDocuments { (querySnapshot, error) in
             if let error = error {
                 print("Error verifying account: \(error)")
             } else {
                 if !querySnapshot!.isEmpty {
-                    // 匹配的记录存在
+           
                     print("Account with username \(username) and password \(password) exists.")
                     loginViewController.myname = username
                     self.performSegue(withIdentifier: "showMain", sender: true)
@@ -60,7 +60,7 @@ class loginViewController: UIViewController {
                     self.loader.isHidden = true
                     
                 } else {
-                    // 未找到匹配的记录
+           
                     print("Account with username \(username) and password \(password) does not exist.")
                     self.loader.stopAnimating()
                     self.loader.isHidden = true
