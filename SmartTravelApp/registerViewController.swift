@@ -15,9 +15,14 @@ class registerViewController: UIViewController {
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var loader: UIActivityIndicatorView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Set the corner radius of the myimage UIImageView
         myimage.layer.cornerRadius  = 20
+        
+        // Stop and hide the loader UIActivityIndicatorView
         self.loader.stopAnimating()
         self.loader.isHidden = true
         
@@ -34,8 +39,12 @@ class registerViewController: UIViewController {
     // Handle the registration process when the user taps the "Register" button
     @IBAction func registerTapped(_ sender: Any) {
         print("11111 dddd")
+        
+        // Start animating the loader and make it visible
         loader.startAnimating()
         loader.isHidden = false
+        
+        // Check if the username and password text fields are not empty
         if username.text != "" && password.text != "" {
             // Check if the length of the password is greater than 6
             if password.text!.count > 6 {
@@ -47,12 +56,16 @@ class registerViewController: UIViewController {
                 let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
                 alertController.addAction(okAction)
                 present(alertController, animated: true, completion: nil)
+                
+                // Stop animating the loader and make it hidden
                 loader.stopAnimating()
                 loader.isHidden = true
             }
         } else {
+            // Stop animating the loader and make it hidden
             loader.stopAnimating()
             loader.isHidden = true
+            
             // Show a warning alert if the username or password is empty
             let alertController = UIAlertController(title: "Warning", message: "Username and password cannot be empty", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
@@ -60,7 +73,6 @@ class registerViewController: UIViewController {
             present(alertController, animated: true, completion: nil)
         }
     }
-
 
     // Handle the dismissal of the view controller when the user taps the "Dismiss" button
     @IBAction func dismissTapped(_ sender: Any) {
@@ -126,7 +138,4 @@ class registerViewController: UIViewController {
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
     }
-    
-    
-  
 }

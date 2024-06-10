@@ -27,7 +27,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     var registerUsername: String = ""  // Variable to store the registered username.
     var registerPassword: String = ""  // Variable to store the registered password.
     
-    
+ 
     var myposition:String = "-37.4853,144.5738"
     var timerLoadData = Timer()
     var checknetwork = Timer()
@@ -58,8 +58,12 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         self.getCurrentLocationAndLoadData()
 
         print("Current \(myposition)")
+        
+      
      
     }
+    
+  
     
     func getCurrentLocation(completion: @escaping (String) -> Void) {
         locationManager.requestWhenInUseAuthorization()

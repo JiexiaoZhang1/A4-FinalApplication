@@ -1,4 +1,3 @@
-//
 //  loginViewController.swift
 //  SmartTravelApp
 //
@@ -10,138 +9,89 @@ import Firebase
 import FirebaseFirestore
 
 class loginViewController: UIViewController {
-    static var myname = ""
-    @IBOutlet weak var password: UITextField!
-    @IBOutlet weak var myimage: UIImageView!
-    @IBOutlet weak var username: UITextField!
-    @IBOutlet weak var loader: UIActivityIndicatorView!
-    var accounts = [Account]()
+    static var myname = "" // Static variable to store the logged-in user's name
+    @IBOutlet weak var password: UITextField! // Outlet for the password text field
+    @IBOutlet weak var myimage: UIImageView! // Outlet for the user's image view
+    @IBOutlet weak var username: UITextField! // Outlet for the username text field
+    @IBOutlet weak var loader: UIActivityIndicatorView! // Outlet for the activity indicator view
+    var accounts = [Account]() // Array to store account information
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        myimage.layer.cornerRadius  = 20
-        DispatchQueue.main.async {
-            self.fetchUserData()
-        }
-       
-        loader.stopAnimating()
-        loader.isHidden = true
-        let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tapGesture1)
-   
-        
-        
+        myimage.layer.cornerRadius  = 20 // Set corner radius for the user's image view
+        loader.stopAnimating() // Stop the activity indicator animation
+        loader.isHidden = true // Hide the activity indicator
+        let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard)) // Add tap gesture recognizer to dismiss keyboard
+        view.addGestureRecognizer(tapGesture1) // Add tap gesture recognizer to the view
     }
     
-    func fetchUserData() {
-        print("1111")
-        let db = Firestore.firestore()
-        let movieCollection = db.collection("accounts")
-        movieCollection.getDocuments() { (result, err) in
-            if let err = err
-            {
-                print("1111 Error getting documents: \(err)")
-            }
-            else
-            {
-                print("1111 Movi22e")
-                for document in result!.documents
-                {
-                    print("11112 Movi22e")
-                    let conversionResult = Result
-                    {
-                      //  print("11111 NANA")
-                        try document.data(as: Account.self)
-                    }
-                    switch conversionResult
-                    {
-                        case .success(let movie):
-                            print("1111 Movie: \(movie)")
-                                
-                            //NOTE THE ADDITION OF THIS LINE
-                            self.accounts.append(movie)
-                            
-                        case .failure(let error):
-                            // A `Movie` value could not be initialized from the DocumentSnapshot.
-                            print("1111 Error decoding movie: \(error)")
-                    }
-                }
-                
-              
-            }
-            
-            print("1111211 Movi22e")
-        }
-    }
-
+    
     @IBAction func loginTapped(_ sender: Any) {
-        print("1111 ",accounts.description)
-        if username.text != "" && password.text != "" {
-            loader.startAnimating()
-            loader.isHidden = false
+        print(accounts.description) // Print the description of the 'accounts' array
+        if username.text != "" && password.text != "" { // Check if username and password are not empty
+            loader.startAnimating() // Start the activity indicator animation
+            loader.isHidden = false // Unhide the activity indicator
             Task {
                 do {
-                    print("1111 User found:")
-                    try await verifyAccount(username: username.text!, password: password.text!)
+                    try await verifyAccount(username: username.text!, password: password.text!) // Call the asynchronous function to verify the account
                 } catch {
-                    print("111 Error verifying account: \(error)")
+                    print("Error verifying account: \(error)") // Print error message
+                    self.showAlert(title: "Warning", message: "Error verifying account: \(error)") // Show alert with error message
                 }
             }
         } else {
-            self.showAlert(title: "Alert", message: "No empty username or password")
+            self.showAlert(title: "Warning", message: "No empty username or password") // Show alert for empty username or password
         }
     }
 
     func verifyAccount(username: String, password: String) {
-        let db = Firestore.firestore()
+        let db = Firestore.firestore() // Get a reference to the Firestore database
         
+        // Query the 'accounts' collection in Firestore for the given username
         db.collection("accounts").whereField("username", isEqualTo: username).getDocuments { (querySnapshot, error) in
             if let error = error {
-                print("Error getting documents: \(error)")
+                print("Error getting documents: \(error)") // Print error message
+                self.showAlert(title: "Warning", message: "Error getting documents: \(error)") // Show alert with error message
             } else {
                 if let document = querySnapshot?.documents.first {
-                    let storedPassword = document.get("password") as? String ?? ""
+                    let storedPassword = document.get("password") as? String ?? "" // Get the stored password from the document
                     if storedPassword == password {
                         // Username and password match, perform segue to show main screen
-                        self.loader.isHidden = true
-                        self.loader.stopAnimating()
-                        loginViewController.myname = self.username.text!
-                        self.performSegue(withIdentifier: "showMain", sender: true)
+                        self.loader.isHidden = true // Hide the activity indicator
+                        self.loader.stopAnimating() // Stop the activity indicator animation
+                        loginViewController.myname = self.username.text! // Set the logged-in user's name
+                        self.performSegue(withIdentifier: "showMain", sender: true) // Perform segue to show the main screen
                     } else {
                         // Password does not match
-                        self.loader.stopAnimating()
-                        self.loader.isHidden = true
-                        self.showAlert(title: "Warning", message: "Incorrect password")
-                        print("Incorrect password")
+                        self.loader.stopAnimating() // Stop the activity indicator animation
+                        self.loader.isHidden = true // Hide the activity indicator
+                        self.showAlert(title: "Warning", message: "Incorrect password") // Show alert for incorrect password
+                        print("Incorrect password") // Print message
                     }
                 } else {
                     // Username not found
-                    self.loader.stopAnimating()
-                    self.loader.isHidden = true
-                    self.showAlert(title: "Warning", message: "Username not found")
-                    
-                    print("Username not found")
+                    self.loader.stopAnimating() // Stop the activity indicator animation
+                    self.loader.isHidden = true // Hide the activity indicator
+                    self.showAlert(title: "Warning", message: "Username not found") // Show alert for username not found
+                    print("Username not found") // Print message
                 }
             }
         }
     }
 
-
-
-
     @objc func dismissKeyboard() {
-        view.endEditing(true)
+        view.endEditing(true) // Dismiss the keyboard
     }
 
     func showAlert(title: String, message: String) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alertController.addAction(okAction)
-        present(alertController, animated: true, completion: nil)
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert) // Create an alert controller
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil) // Create an OK action
+        alertController.addAction(okAction) // Add the OK action to the alert controller
+        present(alertController, animated: true, completion: nil) // Present the alert controller
     }
-    
     
     @IBAction func backFromLoginMain(_ segue : UIStoryboardSegue) {
-        
+        // Action to handle unwind segue from the main screen
     }
 }
+
