@@ -1,13 +1,4 @@
-<<<<<<< HEAD
-=======
 
-//
-//  HotelsViewController.swift
-//  SmartTravelApp
-//
-//  Created by student on 22/5/2024.
-//
->>>>>>> main
 
 import UIKit
 import CoreLocation
