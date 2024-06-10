@@ -92,15 +92,39 @@ class loginViewController: UIViewController {
         }
     }
 
-    func verifyAccount(username: String, password: String) async throws {
+    func verifyAccount(username: String, password: String) {
         let db = Firestore.firestore()
-       
-        let querySnapshot = try await db.collection("accounts").whereField("username", isEqualTo: username).getDocuments()
-        for document in querySnapshot.documents {
-            // 检查密码等其他逻辑
-            print("1111 User found: \(document.documentID) => \(document.data())")
+        
+        db.collection("accounts").whereField("username", isEqualTo: username).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error getting documents: \(error)")
+            } else {
+                if let document = querySnapshot?.documents.first {
+                    let storedPassword = document.get("password") as? String ?? ""
+                    if storedPassword == password {
+                        // Username and password match, perform segue to show main screen
+                        self.loader.isHidden = true
+                        self.loader.stopAnimating()
+                        self.performSegue(withIdentifier: "showMain", sender: true)
+                    } else {
+                        // Password does not match
+                        self.loader.stopAnimating()
+                        self.loader.isHidden = true
+                        self.showAlert(title: "Warning", message: "Incorrect password")
+                        print("Incorrect password")
+                    }
+                } else {
+                    // Username not found
+                    self.loader.stopAnimating()
+                    self.loader.isHidden = true
+                    self.showAlert(title: "Warning", message: "Username not found")
+                    
+                    print("Username not found")
+                }
+            }
         }
     }
+
 
 
 
@@ -113,5 +137,10 @@ class loginViewController: UIViewController {
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
+    }
+    
+    
+    @IBAction func backFromLoginMain(_ segue : UIStoryboardSegue) {
+        
     }
 }

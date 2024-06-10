@@ -37,22 +37,19 @@ class registerViewController: UIViewController {
         loader.startAnimating()
         loader.isHidden = false
         if username.text != "" && password.text != "" {
-            // Check if the username is available
-          //  if isUsernameAvailable(username: username.text!) {
-                // Store the username and password in UserDefaults
-              //  UserDefaults.standard.set(password.text, forKey: username.text!)
-                
+            // Check if the length of the password is greater than 6
+            if password.text!.count > 6 {
+                // Password length meets the requirement, proceed with the registration logic
                 inserttofirebasedb(username: username.text!, password: password.text!)
-               // UserDefaults.standard.synchronize()
-
-            
-          /*  } else {
-                // Show a warning alert if the username is already taken
-                let alertController = UIAlertController(title: "Warning", message: "Username already exists, please choose another one", preferredStyle: .alert)
+            } else {
+                // Password length does not meet the requirement, display a warning message
+                let alertController = UIAlertController(title: "Warning", message: "Password should be at least 7 characters long", preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
                 alertController.addAction(okAction)
                 present(alertController, animated: true, completion: nil)
-            }*/
+                loader.stopAnimating()
+                loader.isHidden = true
+            }
         } else {
             loader.stopAnimating()
             loader.isHidden = true
@@ -63,6 +60,7 @@ class registerViewController: UIViewController {
             present(alertController, animated: true, completion: nil)
         }
     }
+
 
     // Handle the dismissal of the view controller when the user taps the "Dismiss" button
     @IBAction func dismissTapped(_ sender: Any) {
@@ -77,56 +75,58 @@ class registerViewController: UIViewController {
     // Insert the user's information into the Firebase Firestore database
     func inserttofirebasedb(username: String, password: String) {
         let db = Firestore.firestore()
-        let movieCollection = db.collection("accounts")
-        let matrix = Account(username: username, password: password)
+        let accountCollection = db.collection("accounts")
 
-        do {
-            try movieCollection.addDocument(from: matrix, completion: { (err) in
-                if let err = err {
-                    self.loader.stopAnimating()
-                    self.loader.isHidden = true
-                    print("1111 Error adding document: \(err)")
-                } else {
-                    self.loader.stopAnimating()
-                    self.loader.isHidden = true
-                    print("1111 Successfully created teams")
-                }
-            })
-        } catch let error {
-            loader.stopAnimating()
-            loader.isHidden = true
-            print("1111 Error writing city to Firestore: \(error)")
-        }
-
-        movieCollection.getDocuments() { (result, err) in
-            if let err = err {
+        // Check if the username is already registered
+        accountCollection.whereField("username", isEqualTo: username).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                // Handle the error
                 self.loader.stopAnimating()
                 self.loader.isHidden = true
-                print("1111 Error getting documents: \(err)")
-            } else {
-                // Loop through the documents and print the team information
-                for document in result!.documents {
-                    let conversionResult = Result {
-                        try document.data(as: Account.self)
-                    }
+                print("Error checking username existence: \(error)")
+                self.showAlert(title: "Warning", message: "Error checking username existence: \(error)")
+            } else if querySnapshot!.documents.isEmpty {
+                // Username is not found, proceed with registration
+                let newAccount = Account(username: username, password: password, gender: "Male", imagepath: "")
 
-                    switch conversionResult {
-                    case .success(let movie):
-                        self.loader.stopAnimating()
-                        self.loader.isHidden = true
-                        print("1111 Team: \(movie)")
-                        print("1111 yaya 1")
-                        self.dismiss(animated: true, completion: nil)
-                        
-                    case .failure(let error):
-                        self.loader.stopAnimating()
-                        self.loader.isHidden = true
-                        print("1111 Error decoding movie: \(error)")
+                do {
+                    try accountCollection.addDocument(from: newAccount) { error in
+                        if let error = error {
+                            // Handle the error
+                            print("Error adding document: \(error)")
+                            self.loader.stopAnimating()
+                            self.loader.isHidden = true
+                            self.showAlert(title: "Warning", message: "Error adding document: \(error)")
+                        } else {
+                            // Registration successful
+                            print("Successfully created account")
+                            self.loader.stopAnimating()
+                            self.loader.isHidden = true
+                            self.dismiss(animated: true, completion: nil)
+                        }
                     }
+                } catch {
+                    // Handle the error
+                    print("Error writing account to Firestore: \(error)")
+                    self.showAlert(title: "Warning", message: "Error writing account to Firestore: \(error)")
                 }
+            } else {
+                // Username already exists, show a warning to the user
+                self.loader.stopAnimating()
+                self.loader.isHidden = true
+                self.showAlert(title: "Warning", message: "Username already exists, please choose a different username")
+                print("Username already exists, please choose a different username")
             }
         }
     }
+
+    func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
+    }
+    
     
   
 }
