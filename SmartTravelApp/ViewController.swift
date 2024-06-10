@@ -30,6 +30,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     var myposition:String = "-37.9105126,145.1344988"
     var timerLoadData = Timer()
+    var checknetwork = Timer()
     let locationManager = CLLocationManager()
     var weburl:String = ""
     
@@ -52,7 +53,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
 
         self.timerLoadData = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(monitorData), userInfo: nil, repeats: true)
        
-
+        self.checknetwork = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(checknetworkloader), userInfo: nil, repeats: true)
         
         self.getCurrentLocationAndLoadData()
 
@@ -145,6 +146,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     private var requestCount = 0
     var isFinishImage:Bool = false
+    
     @objc func monitorData() {
 
         if isFinishLoadInitialData{
@@ -163,12 +165,27 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
                 loader.isHidden = true
                 loader.stopAnimating()
                 updateTableHeight()
+               
             }
             timerLoadData.invalidate()
+            self.checknetwork.invalidate()
         }else{
-           
+          
         }
        
+    }
+    
+    var responsecounter = 0
+    @objc func checknetworkloader() {
+        responsecounter += 1
+ 
+        if responsecounter == 10{
+            loader.stopAnimating()
+            loader.isHidden = true
+            checknetwork.invalidate()
+            responsecounter = 0
+            timerLoadData.invalidate()
+        }
     }
     
     var location_id: [String] = []

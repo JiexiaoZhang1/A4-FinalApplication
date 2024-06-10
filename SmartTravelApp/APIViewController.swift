@@ -20,8 +20,12 @@ class APIViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
     var myposition:String = "-37.9105126,145.1344988"
     var timerLoadData = Timer()
     let locationManager = CLLocationManager()
-    
+    var checknetwork = Timer()
     var timerLoadData1 = Timer()
+    var responsecounter = 0
+    
+    var refreshControl: UIRefreshControl!
+    
     /// Called after the controller's view is loaded into memory.
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,11 +42,44 @@ class APIViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
         loader.startAnimating()
     
         self.timerLoadData = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(monitorData), userInfo: nil, repeats: true)
- 
+        self.checknetwork = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(checknetworkloader), userInfo: nil, repeats: true)
         self.getCurrentLocationAndLoadData()
 
         print("Current \(myposition)")
      
+    
+               
+               // 初始化 refreshControl
+               refreshControl = UIRefreshControl()
+               refreshControl.addTarget(self, action: #selector(handleRefresh(_:)), for: .valueChanged)
+               theTable.refreshControl = refreshControl
+      
+    }
+    
+    @objc func handleRefresh(_ sender: UIRefreshControl) {
+       print("refresh")
+        loader.startAnimating()
+        loader.isHidden = false
+        hasLoadedData = false
+        self.timerLoadData = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(monitorData), userInfo: nil, repeats: true)
+        self.checknetwork = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(checknetworkloader), userInfo: nil, repeats: true)
+        responsecounter = 0
+        self.getCurrentLocationAndLoadData()
+       
+        refreshControl.endRefreshing()
+              // theTable.reloadData()
+    }
+    
+    @objc func checknetworkloader() {
+        responsecounter += 1
+ 
+        if responsecounter == 10{
+            loader.stopAnimating()
+            loader.isHidden = true
+            checknetwork.invalidate()
+            responsecounter = 0
+            timerLoadData.invalidate()
+        }
     }
     
     func getCurrentLocation(completion: @escaping (String) -> Void) {
@@ -134,7 +171,7 @@ class APIViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
     private var requestCount = 0
     var isFinishImage:Bool = false
     @objc func monitorData() {
-
+        print("1111")
         if isFinishLoadInitialData{
             requestCount = location_id.count
             imageurl = Array(repeating: "1", count: location_id.count)
@@ -153,6 +190,7 @@ class APIViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
                 
             }
             timerLoadData.invalidate()
+            self.checknetwork.invalidate()
         }else{
             //print("not")
         }
@@ -208,7 +246,16 @@ class APIViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
     @IBOutlet weak var searchinputfield: UITextField!
     var isFinishLoadInitialData:Bool = false
     func loaddata(position:String) {
-       
+        print("OKKKKK")
+        isFinishLoadInitialData = false
+        self.location_id.removeAll()
+        self.name.removeAll()
+        self.distance.removeAll()
+        self.bearing.removeAll()
+        self.address_obj.removeAll()
+        self.imageurl.removeAll()
+        completionCount = 0
+        totalCount = 0
         isFinishLoadInitialData = false
         let url = URL(string: "https://api.content.tripadvisor.com/api/v1/location/nearby_search?latLong=\(position)&key=FC2484B01C6841F7974B9ECDF8967443&category=\(APIViewController.category)&language=en&radiusUnit=600")!
         var request = URLRequest(url: url)
