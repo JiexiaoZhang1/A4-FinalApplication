@@ -108,6 +108,12 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             handler(myposition)
         }
     }
+    
+    @IBAction func listTapped(_ sender: Any) {
+        APIViewController.category = "restaurants"
+        self.performSegue(withIdentifier: "showapiview", sender: true)
+    }
+    
        
     @IBAction func userTapped(_ sender: Any) {
         let alertController = UIAlertController(title: title, message: "Your username is \(loginViewController.myname)", preferredStyle: .alert)

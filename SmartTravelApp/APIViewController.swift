@@ -28,8 +28,10 @@ class APIViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
       
         if APIViewController.category == "hotels"{
             self.title = "Hotels"
-        }else{
+        }else if  APIViewController.category == "attractions"{
             self.title = "Attractions"
+        }else{
+            self.title = "Restaurant"
         }
         
         hasLoadedData = false

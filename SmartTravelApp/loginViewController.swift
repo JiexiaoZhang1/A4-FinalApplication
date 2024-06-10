@@ -12,6 +12,7 @@ import FirebaseFirestore
 class loginViewController: UIViewController {
     static var myname = ""
     @IBOutlet weak var password: UITextField!
+    @IBOutlet weak var myimage: UIImageView!
     @IBOutlet weak var username: UITextField!
 
     @IBOutlet weak var loader: UIActivityIndicatorView!
@@ -19,6 +20,7 @@ class loginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        myimage.layer.cornerRadius  = 20
         loader.stopAnimating()
         loader.isHidden = true
         let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))

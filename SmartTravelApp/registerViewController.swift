@@ -11,11 +11,13 @@ import FirebaseFirestoreSwift
 
 // The registerViewController class is responsible for handling user registration
 class registerViewController: UIViewController {
+    @IBOutlet weak var myimage: UIImageView!
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var username: UITextField!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        myimage.layer.cornerRadius  = 20
         // Add a tap gesture recognizer to dismiss the keyboard when the user taps outside the text fields
         let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGesture1)
