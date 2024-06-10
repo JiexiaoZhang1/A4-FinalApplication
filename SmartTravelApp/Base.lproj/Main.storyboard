@@ -547,7 +547,7 @@
                                                                                                 </constraints>
                                                                                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                                                                <state key="normal" image="list.dash" catalog="system"/>
+                                                                                                <state key="normal" image="magnifyingglass" catalog="system"/>
                                                                                                 <connections>
                                                                                                     <action selector="listTapped:" destination="fws-zr-XKg" eventType="touchUpInside" id="vhu-Jx-aUr"/>
                                                                                                 </connections>
@@ -3998,7 +3998,6 @@
         <image name="house" catalog="system" width="128" height="104"/>
         <image name="indians-civilization" width="512" height="512"/>
         <image name="like" width="36" height="36"/>
-        <image name="list.dash" catalog="system" width="128" height="85"/>
         <image name="location-gray" width="33" height="56"/>
         <image name="magnifyingglass" catalog="system" width="128" height="117"/>
         <image name="map" catalog="system" width="128" height="112"/>

@@ -1,9 +1,3 @@
-//
-//  ProfilePageViewController.swift
-//  SmartTravelApp
-//
-//  Created by student on 10/6/2024.
-//
 
 import UIKit
 import Firebase

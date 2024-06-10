@@ -1,9 +1,4 @@
-//
-//  DetailViewController.swift
-//  SmartTravelApp
-//
-//  Created by student on 27/5/2024.
-//
+
 
 import UIKit
 import SafariServices

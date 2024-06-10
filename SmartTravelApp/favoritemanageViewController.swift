@@ -1,9 +1,4 @@
-//
-//  favoritemanageViewController.swift
-//  SmartTravelApp
-//
-//  Created by student on 28/5/2024.
-//
+
 
 import UIKit
 

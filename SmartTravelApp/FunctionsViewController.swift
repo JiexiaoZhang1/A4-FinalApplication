@@ -1,9 +1,4 @@
-//
-//  FunctionsViewController.swift
-//  SmartTravelApp
-//
-//  Created by student on 22/5/2024.
-//
+
 
 import UIKit
 import WebKit

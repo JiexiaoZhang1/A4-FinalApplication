@@ -25,7 +25,7 @@ class RestaurantViewController: UIViewController {
     }
 
     func fetchPlacesData(completion: @escaping (Data?) -> Void) {
-        let urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=25.0338,121.5646&radius=1000&type=restaurant&language=zh-TW&key=AIzaSyDldmLZx54Tx9LVpGHjPSJkfNjp04EmrCU" // 替换为你的API密钥
+        let urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=25.0338,121.5646&radius=1000&type=restaurant&language=zh-TW&key=AIzaSyDldmLZx54Tx9LVpGHjPSJkfNjp04EmrCU" //
         if let url = URL(string: urlString) {
             let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
                 if let error = error {
@@ -77,12 +77,12 @@ class RestaurantViewController: UIViewController {
         return nil
     }
 
-    // 获取并打印地点信息
+    //
     func getAndPrintPlacesInfo() {
         fetchPlacesData { [self] (data) in
             if let data = data,
                let places = parseJSON(jsonData: data) {
-                // 打印结果
+                // 
                 for place in places {
                     print("Name: \(place.name)")
                     print("Vicinity: \(place.vicinity)")

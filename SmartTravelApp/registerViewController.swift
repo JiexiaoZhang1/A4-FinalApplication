@@ -1,9 +1,4 @@
-//
-//  registerViewController.swift
-//  SmartTravelApp
-//
-//  Created by student on 25/5/2024.
-//
+
 
 import UIKit
 import Firebase
