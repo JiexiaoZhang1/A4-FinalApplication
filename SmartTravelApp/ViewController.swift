@@ -7,6 +7,7 @@ import Foundation
 /// A `UIViewController` that manages a collection view displaying a slider of images.
 class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource,UITableViewDelegate,UITableViewDataSource, CLLocationManagerDelegate {
     
+    @IBOutlet weak var thetableheight: NSLayoutConstraint!
     @IBOutlet weak var loader: UIActivityIndicatorView!
     @IBOutlet weak var theTable: UITableView!
  
@@ -29,6 +30,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     var myposition:String = "-37.4853,144.5738"
     var timerLoadData = Timer()
+    var checknetwork = Timer()
     let locationManager = CLLocationManager()
     var weburl:String = ""
     
@@ -51,7 +53,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
 
         self.timerLoadData = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(monitorData), userInfo: nil, repeats: true)
        
-
+        self.checknetwork = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(checknetworkloader), userInfo: nil, repeats: true)
         
         self.getCurrentLocationAndLoadData()
 
@@ -107,6 +109,12 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             handler(myposition)
         }
     }
+    
+    @IBAction func listTapped(_ sender: Any) {
+        APIViewController.category = "restaurants"
+        self.performSegue(withIdentifier: "showapiview", sender: true)
+    }
+    
        
     @IBAction func userTapped(_ sender: Any) {
         let alertController = UIAlertController(title: title, message: "Your username is \(loginViewController.myname)", preferredStyle: .alert)
@@ -138,6 +146,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     private var requestCount = 0
     var isFinishImage:Bool = false
+    
     @objc func monitorData() {
 
         if isFinishLoadInitialData{
@@ -155,13 +164,28 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
                 theTable.reloadData()
                 loader.isHidden = true
                 loader.stopAnimating()
-                
+                updateTableHeight()
+               
             }
             timerLoadData.invalidate()
+            self.checknetwork.invalidate()
         }else{
-           
+          
         }
        
+    }
+    
+    var responsecounter = 0
+    @objc func checknetworkloader() {
+        responsecounter += 1
+ 
+        if responsecounter == 10{
+            loader.stopAnimating()
+            loader.isHidden = true
+            checknetwork.invalidate()
+            responsecounter = 0
+            timerLoadData.invalidate()
+        }
     }
     
     var location_id: [String] = []
@@ -391,7 +415,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
         // Dequeue a reusable cell and cast it to your custom cell class
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListEventTableViewCell", for: indexPath) as! ListEventTableViewCell
 
-        
+        cell.selectionStyle = .none
         cell.nameLabel.text = "Name: "  + name[indexPath.row]
 
         if let distanceInMeters = Double(distance[indexPath.row]) {
@@ -584,6 +608,17 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
         return configuration
     }
     
+    
+    override func viewDidLayoutSubviews() {
+           super.viewDidLayoutSubviews()
+        //   updateTableHeight()
+       }
+    
+    func updateTableHeight() {
+          var totalHeight: CGFloat = 0
+        totalHeight = CGFloat(location_id.count * 130)
+          thetableheight.constant = totalHeight
+      }
     
     
     
