@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7D94B59FF60DCD17FC5E38B6 /* Pods_SmartTravelApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC921C354E23407E08DA21E /* Pods_SmartTravelApp.framework */; };
+		9D08386E2C17474E00C10D0A /* ProfilePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D08386D2C17474E00C10D0A /* ProfilePageViewController.swift */; };
 		9D2CD14B2BEA754700FB2B53 /* ListEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2CD14A2BEA754700FB2B53 /* ListEventTableViewCell.swift */; };
 		9D2CD14D2BEA7C5200FB2B53 /* TodoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2CD14C2BEA7C5200FB2B53 /* TodoTableViewCell.swift */; };
 		9D2CD14F2BEA7C5900FB2B53 /* AddTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2CD14E2BEA7C5900FB2B53 /* AddTaskViewController.swift */; };
@@ -76,6 +77,7 @@
 
 /* Begin PBXFileReference section */
 		192E5C74E7EC1EB61793D070 /* Pods-SmartTravelApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartTravelApp.debug.xcconfig"; path = "Target Support Files/Pods-SmartTravelApp/Pods-SmartTravelApp.debug.xcconfig"; sourceTree = "<group>"; };
+		9D08386D2C17474E00C10D0A /* ProfilePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePageViewController.swift; sourceTree = "<group>"; };
 		9D2CD14A2BEA754700FB2B53 /* ListEventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListEventTableViewCell.swift; sourceTree = "<group>"; };
 		9D2CD14C2BEA7C5200FB2B53 /* TodoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoTableViewCell.swift; sourceTree = "<group>"; };
 		9D2CD14E2BEA7C5900FB2B53 /* AddTaskViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTaskViewController.swift; sourceTree = "<group>"; };
@@ -235,6 +237,7 @@
 				9D7DF87D2C04D210006B3005 /* DetailViewController.swift */,
 				9D9A2C612C05E7FB00A1FFB4 /* loginViewController.swift */,
 				9D9A2C632C05E7FF00A1FFB4 /* registerViewController.swift */,
+				9D08386D2C17474E00C10D0A /* ProfilePageViewController.swift */,
 				9D7DF8812C04F9C1006B3005 /* favoritemanageViewController.swift */,
 			);
 			path = SmartTravelApp;
@@ -478,6 +481,7 @@
 				9D3C93EA2BE2AC3C00649B37 /* AppDelegate.swift in Sources */,
 				9D2CD14F2BEA7C5900FB2B53 /* AddTaskViewController.swift in Sources */,
 				9D2CD1C02BEA7E2A00FB2B53 /* DateFormatter+Extensions.swift in Sources */,
+				9D08386E2C17474E00C10D0A /* ProfilePageViewController.swift in Sources */,
 				9DB22D4E2BF518F400BFEE08 /* locationViewController.swift in Sources */,
 				9D7DF8822C04F9C1006B3005 /* favoritemanageViewController.swift in Sources */,
 				9D2CD1C62BEA927500FB2B53 /* ChatViewController.swift in Sources */,

@@ -1,5 +1,3 @@
-
-
 import UIKit
 import CoreLocation
 import SafariServices
@@ -41,9 +39,6 @@ class APIViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
 
         print("Current \(myposition)")
      
-    
-               
-               // 初始化 refreshControl
                refreshControl = UIRefreshControl()
                refreshControl.addTarget(self, action: #selector(handleRefresh(_:)), for: .valueChanged)
                theTable.refreshControl = refreshControl
@@ -192,19 +187,6 @@ class APIViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
     }
     
     @objc func monitorsearchData() {
-        print("hi")
-        print("--------------------")
-        print("--------------------")
-        print(self.location_id.description)
-        print(self.name.description)
-              print(self.distance.description)
-                    print(self.bearing.description)
-                          print(self.address_obj.description)
-        print("--------------------")
-        print("--------------------")
-        
-        
-        
         if isFinishLoadInitialData{
             requestCount = location_id.count
             imageurl = Array(repeating: "1", count: location_id.count)
@@ -240,7 +222,7 @@ class APIViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
     @IBOutlet weak var searchinputfield: UITextField!
     var isFinishLoadInitialData:Bool = false
     func loaddata(position:String) {
-        print("OKKKKK")
+
         isFinishLoadInitialData = false
         self.location_id.removeAll()
         self.name.removeAll()
