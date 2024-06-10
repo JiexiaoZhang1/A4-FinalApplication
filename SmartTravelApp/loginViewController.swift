@@ -105,6 +105,7 @@ class loginViewController: UIViewController {
                         // Username and password match, perform segue to show main screen
                         self.loader.isHidden = true
                         self.loader.stopAnimating()
+                        loginViewController.myname = self.username.text!
                         self.performSegue(withIdentifier: "showMain", sender: true)
                     } else {
                         // Password does not match

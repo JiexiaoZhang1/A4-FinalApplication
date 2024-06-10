@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 class ProfilePageViewController: UIViewController {
     
@@ -13,33 +14,53 @@ class ProfilePageViewController: UIViewController {
     @IBOutlet weak var gender: UISegmentedControl!
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var myimage: UIImageView!
-    var fileName: String? {
-            didSet {
-                saveToUserDefaults()
-            }
-        }
-    
-
-    
+    var fileName: String = ""
     override func viewDidLoad() {
         super.viewDidLoad()
-        let currentFileName = getFileName()
-        if let fileName = currentFileName {
-     
-            print("Current file name: \(fileName)")
-            myimage.image =  loadImageFromPath(filename: fileName)
-        } else {
-            print("No file name saved")
-            myimage.image =  UIImage(systemName: "person.fill")
-        }
         
+        
+        getUserInfo(username: loginViewController.myname)
+ 
         username.text = loginViewController.myname
         
-        
-        let savedGender = UserDefaults.standard.integer(forKey: "gender")
-              gender.selectedSegmentIndex = savedGender
+    
      
     }
+    
+    func getUserInfo(username: String) {
+        let db = Firestore.firestore()
+        
+        db.collection("accounts").whereField("username", isEqualTo: username).getDocuments { [self] (querySnapshot, error) in
+            if let error = error {
+                print("Error getting documents: \(error)")
+            } else {
+                if let document = querySnapshot?.documents.first {
+                    let imagepath = document.get("imagepath") as? String ?? ""
+                    let genderstring = document.get("gender") as? String ?? ""
+                    
+                    // Print or use the retrieved values as needed
+                    print("User Info - Image Path: \(imagepath), Gender: \(gender)")
+                    if imagepath == ""{
+                        myimage.image =  UIImage(systemName: "person.fill")
+                    }else{
+                        myimage.image =  self.loadImageFromPath(filename: imagepath)
+                    }
+                    
+                    if genderstring == "Male"{
+                        gender.selectedSegmentIndex = 0
+                    }else
+                    {
+                        gender.selectedSegmentIndex = 1
+                    }
+                        
+                } else {
+                    // Username not found
+                    print("Username not found")
+                }
+            }
+        }
+    }
+
     
     @IBAction func genderValueChanged(_ sender: UISegmentedControl) {
        
@@ -105,26 +126,83 @@ class ProfilePageViewController: UIViewController {
     @IBAction func doneTapped(_ sender: Any) {
       
         fileName = UUID().uuidString
-        saveToUserDefaults()
+        var genderinfo = "Male"
+        if gender.selectedSegmentIndex == 0 {
+            genderinfo = "Male"
+        }else{
+            genderinfo = "FeMale"
+        }
+        saveImageToDatabase()
+        updateUserInfo(username: loginViewController.myname, newGender: genderinfo, newImagePath: fileName)
+        
       
     }
     
-    func getFileName() -> String? {
-           return UserDefaults.standard.string(forKey: userDefaultsKey)
-       }
+    func updateUserInfo(username: String, newGender: String, newImagePath: String) {
+        let db = Firestore.firestore()
     
-    let userDefaultsKey = "fileName"
-
-    func saveToUserDefaults() {
-        
-        if let fileName = fileName {
-            UserDefaults.standard.set(fileName, forKey: userDefaultsKey)
-        } else {
-
-            UserDefaults.standard.removeObject(forKey: userDefaultsKey)
+        db.collection("accounts").whereField("username", isEqualTo: username).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error getting documents: \(error)")
+                self.showAlert(title: "Warning", message:"Error getting documents: \(error)")
+            } else {
+                if let document = querySnapshot?.documents.first {
+                  
+                    db.collection("accounts").document(document.documentID).updateData([
+                        "gender": newGender,
+                        "imagepath": newImagePath
+                    ]) { error in
+                        if let error = error {
+                            print("Error updating document: \(error)")
+                            self.showAlert(title: "Warning", message:"Error updating document: \(error)")
+                            
+                        } else {
+                            print("Document successfully updated")
+                            self.showAlert(title: "Warning", message:"User info successfully updated")
+                        }
+                    }
+                } else {
+            
+                    print("Username not found")
+                    self.showAlert(title: "Warning", message: "Username not found")
+                }
+            }
         }
     }
     
+    func saveImageToDatabase(){
+       
+        guard let selectedImage = myimage.image else {
+            return
+        }
+
+        let fileManager = FileManager.default
+        guard let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            return
+        }
+        let fileURL = documentsURL.appendingPathComponent(fileName)
+        
+        guard let imageData = selectedImage.jpegData(compressionQuality: 1.0) else {
+            return
+        }
+        
+        do {
+            try imageData.write(to: fileURL)
+
+            
+        } catch {
+            print("error：\(error.localizedDescription)")
+        }
+    }
+
+    func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
+    }
+    
+  
     
    
 
