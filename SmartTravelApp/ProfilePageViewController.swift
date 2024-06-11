@@ -102,14 +102,7 @@ class ProfilePageViewController: UIViewController {
         }
         alert.addAction(photoLibraryAction)
         
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            let cameraAction = UIAlertAction(title: "Camera", style: .default) { _ in
-                imagePicker.sourceType = .camera
-                self.present(imagePicker, animated: true, completion: nil)
-            }
-            alert.addAction(cameraAction)
-        }
-        
+    
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alert.addAction(cancelAction)
         
